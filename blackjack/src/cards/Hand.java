@@ -6,8 +6,13 @@ import java.util.LinkedList;
 public class Hand {
 
 	LinkedList<Card> cards=new LinkedList<Card>();
+	boolean blackjack=false;
 	
 	protected Hand(Card a, Card b){
+		if(a.val+b.val==21){
+			//System.out.println("Blackjack!");
+			blackjack=true;
+		}
 		cards.add(a);
 		cards.add(b);
 	}
@@ -41,9 +46,16 @@ public class Hand {
 		}
 		return count;
 	}
+	
+	public boolean bust(){
+		if(this.value()>21){
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {
-		return "Hand [cards=" + cards + "]";
+		return "" + cards;
 	}
 }

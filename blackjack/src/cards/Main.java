@@ -15,6 +15,9 @@ public class Main {
 		hand.hit(shoe.getCard());
 		System.out.println(hand);
 		System.out.println(hand.value());
+		System.out.println("--");
+		Deal deal=new Deal(10,shoe);
+		deal.showDeal();
 	}
 
 }
