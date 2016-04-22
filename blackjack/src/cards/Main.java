@@ -18,6 +18,8 @@ public class Main {
 		System.out.println("--");
 		Deal deal=new Deal(10,shoe);
 		deal.showDeal();
+		deal.dealer_play();
+		System.out.println(deal.payout());
 	}
 
 }

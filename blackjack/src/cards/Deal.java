@@ -36,6 +36,10 @@ public class Deal {
 			d_hand.hit(shoe.getCard());
 			d_bust=d_hand.bust();
 		}
+		System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+		if(d_hand.blackjack){
+			System.out.println("Blackjack!");
+		}
 	}
 	
 	public int payout(){
@@ -51,6 +55,9 @@ public class Deal {
 		}else{
 			if(d_hand.blackjack){
 				return -bet_value;
+			}
+			if(d_bust){
+				return bet_value;
 			}
 			if(p_hand.value()>d_hand.value()){
 				return bet_value;
