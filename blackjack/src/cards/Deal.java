@@ -8,12 +8,15 @@ public class Deal {
 	Hand d_hand;
 	private boolean bust=false;
 	private boolean d_bust=false;
+	public boolean enddeal=false;
+	public Player p;
 	
-	public Deal(int bet, Shoe sh){
+	public Deal(int bet, Shoe sh, Player p){
 		this.bet_value=bet;
 		this.shoe=sh;
 		this.p_hand=new Hand(shoe.getCard(),shoe.getCard());
 		this.d_hand=new Hand(shoe.getCard(),shoe.getCard());
+		this.p=p;
 	}
 	
 	public void showDeal(){
@@ -44,30 +47,60 @@ public class Deal {
 	
 	public int payout(){
 		if(bust){
+			p.balance-=bet_value;
+			System.out.println("Player loses and his current balance is "+p.balance);
 			return -bet_value;
 		}
 		if(p_hand.blackjack){
 			if(d_hand.blackjack){
+				System.out.println("Player pushes and his current balance is "+p.balance);
 				return 0;
 			}else{
+				p.balance+=(int) Math.round(1.5*bet_value);
+				System.out.println("Player wins and his current balance is "+p.balance);
 				return (int) Math.round(1.5*bet_value);
 			}
 		}else{
 			if(d_hand.blackjack){
+				p.balance-=bet_value;
+				System.out.println("Player loses and his current balance is "+p.balance);
 				return -bet_value;
 			}
 			if(d_bust){
+				p.balance+=bet_value;
+				System.out.println("Player wins and his current balance is "+p.balance);
 				return bet_value;
 			}
 			if(p_hand.value()>d_hand.value()){
+				p.balance+=bet_value;
+				System.out.println("Player wins and his current balance is "+p.balance);
 				return bet_value;
 			}else{
 				if(p_hand.value()==d_hand.value()){
+					System.out.println("Player pushes and his current balance is "+p.balance);
 					return 0;
 				}else{
+					p.balance-=bet_value;
+					System.out.println("Player loses and his current balance is "+p.balance);
 					return -bet_value;
 				}
 			}
+		}
+	}
+	
+	public void input(String s){
+		if(s.equals("h")){
+			hit();
+			System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
+			if(bust){
+				payout();
+				enddeal=true;
+			}
+		}
+		if(s.equals("s")){
+			dealer_play();
+			payout();
+			enddeal=true;
 		}
 	}
 }

@@ -2,7 +2,7 @@ package cards;
 
 public class Player {
 
-	private int balance;
+	public int balance;
 	
 	public Player(int bal){
 		this.balance=bal;
