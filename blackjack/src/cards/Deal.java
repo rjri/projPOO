@@ -192,7 +192,7 @@ public class Deal {
 				enddeal=true;
 			}
 			if(s.equals("2")){
-				if(p_hand.cards.size()==2){
+				if(p_hand.cards.size()==2 && (p_hand.value()==9 || p_hand.value()==10 || p_hand.value()==11) ){
 					doubleDown();
 					System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 					if(!bust){
