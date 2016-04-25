@@ -132,6 +132,9 @@ public class Main {
 								if(s.equals("$")){
 									System.out.println("Player's balance: "+p.showBalance());
 								}
+								if(s.equals("st")){
+									p.stats();
+								}
 								deal.input(s);
 							}else{
 								System.out.println("Invalid input");
