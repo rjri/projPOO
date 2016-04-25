@@ -7,6 +7,7 @@ public class Hand {
 
 	LinkedList<Card> cards=new LinkedList<Card>();
 	boolean blackjack=false;
+	boolean doublesplit=false;
 	
 	protected Hand(Card a, Card b){
 		if(a.val+b.val==21){

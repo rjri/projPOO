@@ -9,10 +9,12 @@ public class Shoe {
 	private int num_decks;
 	LinkedList<Card> cards=new LinkedList<Card>();
 	private Iterator<Card> top;
+	int num_reset;
 	boolean reset=false;
 	double run_count=0;
 	double true_count=0;
 	int num_cards=0;
+	int cards_used=0;
 	double num_decks2;
 	
 	
@@ -23,9 +25,10 @@ public class Shoe {
 		reset=true;
 	}
 	
-	public Shoe(int n){
+	public Shoe(int n, int shuff){
 		this.num_decks=n;
 		this.num_decks2=n;
+		this.num_reset=(int) Math.round((n*52*shuff)/100);
 		for(int j=0;j<num_decks;j++){
 			//Deck novo=new Deck();
 			String[] naipe=new String[4];
@@ -65,7 +68,7 @@ public class Shoe {
 	}
 	
 	public Card getCard(){
-		if(top.hasNext()){
+		if(top.hasNext()&&num_reset>cards_used){
 			Card a=top.next();
 			cardCounter(a);
 			return a;
@@ -80,20 +83,22 @@ public class Shoe {
 	public void cardCounter(Card a){
 		if(reset){
 			num_cards=0;
+			cards_used=0;
 			num_decks2=num_decks;
 			run_count=0;
 			reset=false;
 		}
-		num_cards+=1;
+		cards_used++;
+		num_cards++;
 		if(num_cards==52){
-			num_decks2-=1;
+			num_decks2--;
 			num_cards=0;
 		}
 		if(a.val >=2 && a.val<=6){
-			run_count+=1;
+			run_count++;
 		}
 		if(a.val ==10 || a.val==11){
-			run_count-=1;
+			run_count--;
 		}
 		true_count=(run_count/num_decks2);
 		//System.out.println("true count: " +true_count + "run count:" +run_count +" "+num_decks2+"");

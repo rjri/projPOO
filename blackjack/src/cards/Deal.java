@@ -1,5 +1,8 @@
 package cards;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class Deal {
 
 	int bet_value;
@@ -13,8 +16,9 @@ public class Deal {
 	private boolean splitc=false;
 	private Deal d1, d2;
 	public boolean enddeal=false;
-	boolean d1done=false;
 	static boolean dealerdone;
+	static LinkedList<Hand> hands;
+	private Iterator<Hand> toph;
 	public int po=0;
 	public Player p;
 	
@@ -26,6 +30,7 @@ public class Deal {
 		this.p=p;
 		dealerdone=false;
 		d_bust=false;
+		hands=new LinkedList<Hand>();
 	}
 	
 	public Deal(int bet, Shoe sh, Player p, Card pc){
@@ -35,7 +40,8 @@ public class Deal {
 		this.p=p;
 		splitc=true;
 		if(pc.val==11){
-			po=payout();
+			//po=payout(p_hand);
+			Player.bets++;
 			enddeal=true;
 		}
 	}
@@ -45,8 +51,12 @@ public class Deal {
 		System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 		if(p_hand.value()==21){
 			System.out.println("Blackjack!");
-			po=payout();
-			enddeal=true;
+			Player.bets++;
+			if(!splitc){
+				dealer_play();
+				po=payout(p_hand);
+			}
+			this.enddeal=true;
 		}
 	}
 	
@@ -79,8 +89,9 @@ public class Deal {
 		}
 	}
 	
-	public int payout(){
-		if(!splitc){
+	public int payout(Hand p_hand){
+		bust=p_hand.bust();
+		if(!splitc&&!split){
 			if(d_hand.blackjack){
 				p.balance+=ins_value;
 			}else{
@@ -88,57 +99,69 @@ public class Deal {
 			}
 		}
 		if(bust){
-			if(!splitc){
+			if(!splitc&&!split){
 				p.balance-=bet_value;
 				System.out.println("Player loses and his current balance is "+p.balance);
 			}
+			Player.losses++;
 			return -bet_value;
 		}
 		if(p_hand.blackjack){
 			if(d_hand.blackjack){
-				if(!splitc){
+				if(!splitc&&!split){
 					System.out.println("Player pushes and his current balance is "+p.balance);
 				}
+				Player.pbj++;
+				Player.dbj++;
+				Player.pushes++;
 				return 0;
 			}else{
-				if(!splitc){
+				if(!splitc&&!split){
 					p.balance+=(int) Math.round(1.5*bet_value);
+					Player.pbj++;
 					System.out.println("Player wins and his current balance is "+p.balance);
 				}
+				Player.wins++;
 				return bet_value;//if it was split, no bonus
 			}
 		}else{
 			if(d_hand.blackjack){
-				if(!splitc){
+				if(!splitc&&!split){
 					p.balance-=bet_value;
 					System.out.println("Player loses and his current balance is "+p.balance);
 				}
+				Player.dbj++;
+				Player.losses++;
 				return -bet_value;
 			}
 			if(d_bust){
-				if(!splitc){
+				if(!splitc&&!split){
 					p.balance+=bet_value;
 					System.out.println("Player wins and his current balance is "+p.balance);
 				}
+				Player.wins++;
 				return bet_value;
 			}
 			if(p_hand.value()>d_hand.value()){
-				if(!splitc){
+				if(!splitc&&!split){
 					p.balance+=bet_value;
 					System.out.println("Player wins and his current balance is "+p.balance);
 				}
+				Player.wins++;
 				return bet_value;
 			}else{
 				if(p_hand.value()==d_hand.value()){
-					if(!splitc){
+					if(!splitc&&!split){
 						System.out.println("Player pushes and his current balance is "+p.balance);
 					}
+					Player.pushes++;
 					return 0;
 				}else{
-					if(!splitc){
+					if(!splitc&&!split){
 						p.balance-=bet_value;
 						System.out.println("Player loses and his current balance is "+p.balance);
 					}
+					Player.losses++;
 					return -bet_value;
 				}
 			}
@@ -150,25 +173,49 @@ public class Deal {
 			if(!d1.enddeal){
 				d1.input(s);
 				if(d1.enddeal){
+					if(!d1.split){
+						hands.add(d1.p_hand);
+					}
 					System.out.println("First split done, now playing:");
 					d2.showDeal();
-					po+=d1.po;
+					//po+=d1.po;
 				}
 			}else{
-				if(!d1done){
-					d1done=true;
-				}
 				if(!d2.enddeal){
 					d2.input(s);
 					if(d2.enddeal){
-						po+=d2.po;
+						if(!d2.split){
+							hands.add(d2.p_hand);
+						}
+						//po+=d2.po;
 						if(!splitc){
-							System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+							dealer_play();
+							//System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 							if(d_hand.blackjack){
-								System.out.println("Blackjack!");
+								//System.out.println("Blackjack!");
 								po+=ins_value;
 							}else{
 								po-=ins_value;
+							}
+							toph=hands.iterator();
+							int num=1;
+							while(toph.hasNext()){
+								Hand test=toph.next();
+								int p1=payout(test);
+								if(test.doublesplit){
+									p1*=2;
+								}
+								if(p1<0){
+									System.out.println("Player loses "+(-p1)+" from hand "+num);
+								}
+								if(p1==0){
+									System.out.println("Player pushes hand "+num);
+								}
+								if(p1>0){
+									System.out.println("Player wins "+p1+" from hand "+num);
+								}
+								po+=p1;
+								num++;
 							}
 							p.balance+=po;
 							System.out.println("Player gains "+po+" and his current balance is "+p.balance);
@@ -182,39 +229,52 @@ public class Deal {
 				hit();
 				System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 				if(bust){
-					po=payout();
+					if(!splitc){
+						dealer_play();
+						po=payout(p_hand);
+					}
+					Player.bets++;
 					enddeal=true;
 				}
 			}
 			if(s.equals("s")){
-				dealer_play();
-				po=payout();
+				if(!splitc){
+					dealer_play();
+					po=payout(p_hand);
+				}
+				Player.bets++;
 				enddeal=true;
 			}
 			if(s.equals("2")){
-				if(p_hand.cards.size()==2 && (p_hand.value()==9 || p_hand.value()==10 || p_hand.value()==11) ){
+				if(p_hand.cards.size()==2 && p_hand.value()>=9 && p_hand.value()<=11){
 					doubleDown();
 					System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
-					if(!bust){
-						dealer_play();
+					if(!splitc){
+						if(!bust){
+							dealer_play();
+						}
+						po=payout(p_hand);
 					}
-					po=payout();
+					p_hand.doublesplit=true;
+					Player.bets++;
 					enddeal=true;
 				}else{
 					System.out.println("2: illegal command");	
 				}
 			}
-			if(!splitc&&s.equals("u")){
-				if(p_hand.cards.size()==2){
+			if(s.equals("u")){
+				if(!splitc&&p_hand.cards.size()==2){
 					p.balance-=(int) Math.round(0.5*bet_value);
 					System.out.println("Player surrenders and his current balance is "+p.balance);
+					Player.bets++;
+					Player.losses++;
 					enddeal=true;
 				}else{
 					System.out.println("u: illegal command");	
 				}
 			}
-			if(!splitc&&s.equals("i")){
-				if(p_hand.cards.size()==2 && d_hand.cards.peekFirst().val==11){
+			if(s.equals("i")){
+				if(!splitc&&p_hand.cards.size()==2 && d_hand.cards.peekFirst().val==11){
 					ins_value=bet_value;
 					System.out.println("Player takes insurance");
 				}else{
