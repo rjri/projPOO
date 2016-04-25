@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		Shoe shoe=new Shoe(2);
 		System.out.println(shoe);
-		for(int i=0;i<110;i++){
+		/*for(int i=0;i<110;i++){
 			System.out.println(shoe.getCard());
 		}
 		System.out.println(shoe);
@@ -19,7 +19,7 @@ public class Main {
 		hand.hit(shoe.getCard());
 		System.out.println(hand);
 		System.out.println(hand.value());
-		System.out.println("--");
+		System.out.println("--");*/
 		Player p =new Player(10000,10,100);
 		int bet_amount=p.min_bet;
 		boolean bet_done=false;
