@@ -17,6 +17,7 @@ public class Deal {
 	private boolean splitace=false;
 	private Deal d1, d2;
 	public boolean enddeal=false;
+	private boolean enddeal1=false;
 	static boolean dealerdone;
 	static LinkedList<Hand> hands;
 	private Iterator<Hand> toph;
@@ -44,7 +45,7 @@ public class Deal {
 			//po=payout(p_hand);
 			if(p_hand.cards.peekLast().val!=11){
 				Player.bets++;
-				enddeal=true;
+				enddeal1=true;
 			}else{
 				splitace=true;
 			}
@@ -187,7 +188,20 @@ public class Deal {
 	public void input(String s){
 		if(split){
 			if(!d1.enddeal){
-				d1.input(s);
+				if(!d1.enddeal1){
+					d1.input(s);
+				}else{
+					if(s.equals("s")){
+						d1.enddeal=true;
+					}else{
+						if(!s.equals("ad")&&!s.equals("$")){
+							System.out.println(s+": illegal command");
+						}
+						if(s.equals("ad")){
+							System.out.println("Basic strategy: s");
+						}
+					}
+				}
 				if(d1.enddeal){
 					if(!d1.split){
 						hands.add(d1.p_hand);
@@ -195,10 +209,14 @@ public class Deal {
 					System.out.println("First split done, now playing:");
 					d2.showDeal();
 					//po+=d1.po;
-				}
+				}				
 			}else{
 				if(!d2.enddeal){
-					d2.input(s);
+					if(!d2.enddeal1){
+						d2.input(s);
+					}else{
+						d2.enddeal=true;
+					}
 					if(d2.enddeal){
 						if(!d2.split){
 							hands.add(d2.p_hand);
