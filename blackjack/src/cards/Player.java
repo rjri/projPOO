@@ -2,7 +2,7 @@ package cards;
 
 public class Player {
 
-	public int balance;
+	public float balance;
 	public int min_bet;
 	public int max_bet;
 	static int bets=0, wins=0, losses=0, pushes=0, init_balance=0, pbj=0, dbj=0;
@@ -13,7 +13,7 @@ public class Player {
 		this.max_bet=max;
 	}
 	
-	public int showBalance(){
+	public float showBalance(){
 		return balance;
 	}
 	

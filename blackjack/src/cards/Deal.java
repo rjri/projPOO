@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class Deal {
 
 	int bet_value;
-	int ins_value=0;
+	//double ins_value=0;
 	Shoe shoe;
 	Hand p_hand;
 	static Hand d_hand;
@@ -14,6 +14,7 @@ public class Deal {
 	static boolean d_bust;
 	private boolean split=false;
 	private boolean splitc=false;
+	private boolean splitace=false;
 	private Deal d1, d2;
 	public boolean enddeal=false;
 	static boolean dealerdone;
@@ -41,8 +42,12 @@ public class Deal {
 		splitc=true;
 		if(pc.val==11){
 			//po=payout(p_hand);
-			Player.bets++;
-			enddeal=true;
+			if(p_hand.cards.peekLast().val!=11){
+				Player.bets++;
+				enddeal=true;
+			}else{
+				splitace=true;
+			}
 		}
 	}
 	
@@ -51,12 +56,12 @@ public class Deal {
 		System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 		if(p_hand.value()==21){
 			System.out.println("Blackjack!");
-			Player.bets++;
+			/*Player.bets++;
 			if(!splitc){
 				dealer_play();
 				po=payout(p_hand);
 			}
-			this.enddeal=true;
+			this.enddeal=true;*/
 		}
 	}
 	
@@ -74,30 +79,41 @@ public class Deal {
 	}
 	
 	public void dealer_play(){
+		System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+		if(d_hand.blackjack){
+			System.out.println("Blackjack!");
+		}
 		if(!dealerdone){
 			while(!d_bust && d_hand.value()<17){
+				System.out.println("Dealer hits");
 				d_hand.hit(shoe.getCard());
+				System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 				d_bust=d_hand.bust();
 				dealerdone=true;
 			}
 		}
-		if(!splitc){
+		if(!d_bust){
+			System.out.println("Dealer stands");
+		}else{
+			System.out.println("Dealer busts");
+		}
+		/*if(!splitc){
 			System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 			if(d_hand.blackjack){
 				System.out.println("Blackjack!");
 			}
-		}
+		}*/
 	}
 	
 	public int payout(Hand p_hand){
 		bust=p_hand.bust();
-		if(!splitc&&!split){
+		/*if(!splitc&&!split){
 			if(d_hand.blackjack){
-				p.balance+=ins_value;
+				p.balance+=2*ins_value;
 			}else{
 				p.balance-=ins_value;
 			}
-		}
+		}*/
 		if(bust){
 			if(!splitc&&!split){
 				p.balance-=bet_value;
@@ -117,7 +133,7 @@ public class Deal {
 				return 0;
 			}else{
 				if(!splitc&&!split){
-					p.balance+=(int) Math.round(1.5*bet_value);
+					p.balance+=1.5*bet_value;
 					Player.pbj++;
 					System.out.println("Player wins and his current balance is "+p.balance);
 				}
@@ -191,12 +207,12 @@ public class Deal {
 						if(!splitc){
 							dealer_play();
 							//System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
-							if(d_hand.blackjack){
+							/*if(d_hand.blackjack){
 								//System.out.println("Blackjack!");
-								po+=ins_value;
+								po+=2*ins_value;
 							}else{
 								po-=ins_value;
-							}
+							}*/
 							toph=hands.iterator();
 							int num=1;
 							while(toph.hasNext()){
@@ -226,15 +242,20 @@ public class Deal {
 			}
 		}else{
 			if(s.equals("h")){
-				hit();
-				System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
-				if(bust){
-					if(!splitc){
-						dealer_play();
-						po=payout(p_hand);
+				if(!splitace){
+					hit();
+					System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
+					if(bust){
+						System.out.println("Player busts");
+						if(!splitc){
+							dealer_play();
+							po=payout(p_hand);
+						}
+						Player.bets++;
+						enddeal=true;
 					}
-					Player.bets++;
-					enddeal=true;
+				}else{
+					System.out.println("h: illegal command");
 				}
 			}
 			if(s.equals("s")){
@@ -246,13 +267,14 @@ public class Deal {
 				enddeal=true;
 			}
 			if(s.equals("2")){
-				if(p_hand.cards.size()==2 && p_hand.value()>=9 && p_hand.value()<=11){
+				if(!splitace && p_hand.cards.size()==2 && p_hand.value()>=9 && p_hand.value()<=11){
 					doubleDown();
 					System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
+					if(bust){
+						System.out.println("Player busts");
+					}
 					if(!splitc){
-						if(!bust){
-							dealer_play();
-						}
+						dealer_play();
 						po=payout(p_hand);
 					}
 					p_hand.doublesplit=true;
@@ -264,7 +286,7 @@ public class Deal {
 			}
 			if(s.equals("u")){
 				if(!splitc&&p_hand.cards.size()==2){
-					p.balance-=(int) Math.round(0.5*bet_value);
+					p.balance-=0.5*bet_value;
 					System.out.println("Player surrenders and his current balance is "+p.balance);
 					Player.bets++;
 					Player.losses++;
@@ -275,8 +297,24 @@ public class Deal {
 			}
 			if(s.equals("i")){
 				if(!splitc&&p_hand.cards.size()==2 && d_hand.cards.peekFirst().val==11){
-					ins_value=bet_value;
+					//ins_value=0.5*bet_value;
 					System.out.println("Player takes insurance");
+					if(d_hand.cards.peekLast().val==10){
+						System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+						System.out.println("Blackjack!");
+						Player.dbj++;
+						if(p_hand.blackjack){
+							Player.pbj++;
+							p.balance+=bet_value;
+						}
+						System.out.println("Player wins insurance bet and his current balance is "+p.balance);
+						Player.wins++;
+						Player.bets++;
+						enddeal=true;
+					}else{
+						System.out.println("Dealer does not have a blackjack");
+						p.balance-=0.5*bet_value;
+					}
 				}else{
 					System.out.println("i: illegal command");	
 				}
@@ -295,6 +333,9 @@ public class Deal {
 					System.out.println("p: illegal command");
 				}
 			}
+			if(s.equals("ad")){
+				System.out.println("Basic strategy: " + basicStrategy());
+			}
 		}
 	}
 	
@@ -302,11 +343,14 @@ public class Deal {
 		
 		Iterator<Card> top=p_hand.cards.iterator();
 		boolean ace=false;
+		int nasum=0;
 		while(top.hasNext()){
 			Card a=top.next();
 			if(a.val==11){
 				ace=true;
-			}	
+			}else{
+				nasum+=a.val;
+			}
 		}
 			
 		if(p_hand.cards.size()==2 && p_hand.cards.peekFirst().val==p_hand.cards.peekLast().val){
@@ -357,7 +401,7 @@ public class Deal {
 			}
 			
 		}else{
-			if(ace==true){
+			if(ace==true && nasum<=10){
 				//soft
 				
 				if(p_hand.value()>=13 && p_hand.value()<=17){
@@ -383,21 +427,21 @@ public class Deal {
 					return "s";
 				}
 				if(p_hand.value()==9){
-					if(d_hand.cards.peekFirst().val>=3 && d_hand.cards.peekFirst().val<=6){
+					if(d_hand.cards.peekFirst().val>=3 && d_hand.cards.peekFirst().val<=6 && p_hand.cards.size()==2){
 						return "2";
 					}else{
 						return "h";
 					}
 				}
 				if(p_hand.value()==10){
-					if(d_hand.cards.peekFirst().val<=9){
+					if(d_hand.cards.peekFirst().val<=9 && p_hand.cards.size()==2){
 						return "2";
 					}else{
 						return "h";
 					}
 				}
 				if(p_hand.value()==11){
-					if(d_hand.cards.peekFirst().val<=10){
+					if(d_hand.cards.peekFirst().val<=10 && p_hand.cards.size()==2){
 						return "2";
 					}else{
 						return "h";
@@ -421,7 +465,7 @@ public class Deal {
 					if( d_hand.cards.peekFirst().val<=6){
 						return "s";
 					}else{
-						if(d_hand.cards.peekFirst().val==10){
+						if(d_hand.cards.peekFirst().val==10 && p_hand.cards.size()==2){
 							return "u";
 						}else{
 							return "h";
@@ -432,7 +476,7 @@ public class Deal {
 					if( d_hand.cards.peekFirst().val<=6){
 						return "s";
 					}else{
-						if(d_hand.cards.peekFirst().val>=9){
+						if(d_hand.cards.peekFirst().val>=9 && p_hand.cards.size()==2){
 							return "u";
 						}else{
 							return "h";
@@ -441,6 +485,6 @@ public class Deal {
 				}
 			}
 		}
-		return "null";
+		return "Invalid hand";
 	}
 }

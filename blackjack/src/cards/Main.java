@@ -127,6 +127,7 @@ public class Main {
 							}
 							if(valid){
 								if(s.equals("q")){
+									System.out.println("Bye");
 									System.exit(0);
 								}
 								if(s.equals("$")){
@@ -134,9 +135,6 @@ public class Main {
 								}
 								if(s.equals("st")){
 									p.stats();
-								}
-								if(s.equals("ad")){
-									System.out.println("basic strategy: " + deal.basicStrategy());
 								}
 								deal.input(s);
 							}else{
@@ -149,6 +147,7 @@ public class Main {
 					}
 				}
 				if(s.equals("q")){
+					System.out.println("Bye");
 					System.exit(0);
 				}
 				if(s.equals("$")){

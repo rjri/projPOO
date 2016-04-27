@@ -4,12 +4,10 @@ public class DealHL extends Deal {
 
 	public DealHL(int bet, Shoe sh, Player p) {
 		super(bet, sh, p);
-		// TODO Auto-generated constructor stub
 	}
 
 	public DealHL(int bet, Shoe sh, Player p, Card pc) {
 		super(bet, sh, p, pc);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String hilo(){
