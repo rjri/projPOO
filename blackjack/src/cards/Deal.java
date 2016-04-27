@@ -365,7 +365,11 @@ public class Deal {
 		while(top.hasNext()){
 			Card a=top.next();
 			if(a.val==11){
-				ace=true;
+				if(!ace){
+					ace=true;
+				}else{
+					nasum++;
+				}
 			}else{
 				nasum+=a.val;
 			}
