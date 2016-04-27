@@ -299,15 +299,18 @@ public class Deal {
 	}
 	
 	public String basicStrategy(){
+		
 		Iterator<Card> top=p_hand.cards.iterator();
 		boolean ace=false;
 		while(top.hasNext()){
 			Card a=top.next();
 			if(a.val==11){
 				ace=true;
-			}
+			}	
 		}
+			
 		if(p_hand.cards.size()==2 && p_hand.cards.peekFirst().val==p_hand.cards.peekLast().val){
+			
 			if(p_hand.cards.peekFirst().val==2 || p_hand.cards.peekFirst().val==3){
 				if(d_hand.cards.peekFirst().val>=4 && d_hand.cards.peekFirst().val<=7){
 					return "p";
@@ -325,13 +328,119 @@ public class Deal {
 					return "2";
 				}
 			}
+			if(p_hand.cards.peekFirst().val==6){
+				if(d_hand.cards.peekFirst().val>=3 && d_hand.cards.peekFirst().val<=6){
+					return "p";
+				}else{
+					return "h";
+				}
+			}
+			if(p_hand.cards.peekFirst().val==7){
+				if(d_hand.cards.peekFirst().val<=7){
+					return "p";
+				}else{
+					return "h";
+				}
+			}
+			if(p_hand.cards.peekFirst().val==8 || p_hand.cards.peekFirst().val==11){
+				return "p";
+			}
+			if(p_hand.cards.peekFirst().val==9){
+				if(d_hand.cards.peekFirst().val==7 || d_hand.cards.peekFirst().val>=10){
+					return "s";
+				}else{
+					return "p";
+				}
+			}
+			if(p_hand.cards.peekFirst().val==10){
+				return "s";
+			}
+			
 		}else{
-			if(ace=true){
+			if(ace==true){
 				//soft
+				
+				if(p_hand.value()>=13 && p_hand.value()<=17){
+					return "h";
+				}
+				if(p_hand.value()>=19 && p_hand.value()<=21){
+					return "s";
+				}
+				if(p_hand.value()==18){
+					if(d_hand.cards.peekFirst().val<=8){
+						return "s";
+					}else{
+						return "h";
+					}
+				}
 			}else{
+				
 				//hard
+				if(p_hand.value()>=5 && p_hand.value()<=8){
+					return "h";
+				}
+				if(p_hand.value()>=17 && p_hand.value()<=21){
+					return "s";
+				}
+				if(p_hand.value()==9){
+					if(d_hand.cards.peekFirst().val>=3 && d_hand.cards.peekFirst().val<=6){
+						return "2";
+					}else{
+						return "h";
+					}
+				}
+				if(p_hand.value()==10){
+					if(d_hand.cards.peekFirst().val<=9){
+						return "2";
+					}else{
+						return "h";
+					}
+				}
+				if(p_hand.value()==11){
+					if(d_hand.cards.peekFirst().val<=10){
+						return "2";
+					}else{
+						return "h";
+					}
+				}
+				if(p_hand.value()==12){
+					if(d_hand.cards.peekFirst().val>=4 && d_hand.cards.peekFirst().val<=6){
+						return "s";
+					}else{
+						return "h";
+					}
+				}
+				if((p_hand.value()==13 || p_hand.value()==14)){
+					if( d_hand.cards.peekFirst().val<=6){
+						return "s";
+					}else{
+						return "h";
+					}
+				}
+				if(p_hand.value()==15){
+					if( d_hand.cards.peekFirst().val<=6){
+						return "s";
+					}else{
+						if(d_hand.cards.peekFirst().val==10){
+							return "u";
+						}else{
+							return "h";
+						}
+					}
+				}
+				if(p_hand.value()==16){
+					if( d_hand.cards.peekFirst().val<=6){
+						return "s";
+					}else{
+						if(d_hand.cards.peekFirst().val>=9){
+							return "u";
+						}else{
+							return "h";
+						}
+					}
+				}
 			}
 		}
-		return null;
+		return "null";
 	}
 }

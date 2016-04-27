@@ -135,6 +135,9 @@ public class Main {
 								if(s.equals("st")){
 									p.stats();
 								}
+								if(s.equals("ad")){
+									System.out.println("basic strategy: " + deal.basicStrategy());
+								}
 								deal.input(s);
 							}else{
 								System.out.println("Invalid input");
@@ -154,6 +157,7 @@ public class Main {
 				if(s.equals("st")){
 					p.stats();
 				}
+				
 			}else{
 				System.out.println("Invalid input");
 			}

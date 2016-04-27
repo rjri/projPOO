@@ -16,7 +16,7 @@ public class Shoe {
 	int num_cards=0;
 	int cards_used=0;
 	double num_decks2;
-	
+	int ace_five=0;
 	
 	public void shuffle(){
 		System.out.println("Shuffling...");
@@ -86,7 +86,15 @@ public class Shoe {
 			cards_used=0;
 			num_decks2=num_decks;
 			run_count=0;
+			ace_five=0;
 			reset=false;
+		}
+		
+		if(a.val ==5){
+			ace_five++;
+		}
+		if(a.val==11){
+			ace_five--;
 		}
 		cards_used++;
 		num_cards++;
