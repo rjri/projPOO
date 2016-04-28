@@ -73,13 +73,13 @@ public class Main {
 		validinputs[1]="$";
 		validinputs[2]="q";
 		validinputs[3]="st";
-		validinputs[4]="h";
-		validinputs[5]="s";
-		validinputs[6]="i";
-		validinputs[7]="u";
-		validinputs[8]="p";
-		validinputs[9]="2";
-		validinputs[10]="ad";
+		validinputs[4]="ad";
+		validinputs[5]="h";
+		validinputs[6]="s";
+		validinputs[7]="i";
+		validinputs[8]="u";
+		validinputs[9]="p";
+		validinputs[10]="2";
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		while(true){
 			String s=br.readLine();
@@ -107,7 +107,7 @@ public class Main {
 				System.out.println("Invalid input");
 				valid=true;
 			}
-			for(int i=0;i<4;i++){
+			for(int i=0;i<5;i++){
 				if(validinputs[i].equals(s)){
 					valid=true;
 				}
@@ -156,7 +156,10 @@ public class Main {
 				if(s.equals("st")){
 					p.stats();
 				}
-				
+				if(s.equals("ad")){
+					System.out.println("Ace-five: "+p.ace_five());
+					System.out.println("Count: "+Shoe.ace_five);
+				}
 			}else{
 				System.out.println("Invalid input");
 			}

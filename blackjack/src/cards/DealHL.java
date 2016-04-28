@@ -110,7 +110,7 @@ public class DealHL extends Deal {
 			}
 			if(p_hand.value()==14){
 				if(d_hand.cards.peekFirst().val==10){
-					if(shoe.true_count>=3){
+					if(shoe.true_count>=3&&p_hand.cards.size()==2){
 						return "u";
 					}
 					return basicStrategy();
@@ -118,13 +118,13 @@ public class DealHL extends Deal {
 			}
 			if(p_hand.value()==15){
 				if(d_hand.cards.peekFirst().val==9){
-					if(shoe.true_count>=2){
+					if(shoe.true_count>=2&&p_hand.cards.size()==2){
 						return "u";
 					}
 					return basicStrategy();
 				}
 				if(d_hand.cards.peekFirst().val==10){
-					if(shoe.true_count>=0 && shoe.true_count<=3){
+					if(shoe.true_count>=0 && shoe.true_count<=3&&p_hand.cards.size()==2){
 						return "u";
 					}
 					if(shoe.true_count>=4){
@@ -133,7 +133,7 @@ public class DealHL extends Deal {
 					return "h";
 				}
 				if(d_hand.cards.peekFirst().val==11){
-					if(shoe.true_count>=1){
+					if(shoe.true_count>=1&&p_hand.cards.size()==2){
 						return "u";
 					}
 					return basicStrategy();

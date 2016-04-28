@@ -12,7 +12,7 @@ public class DealHL_AF extends DealHL {
 	
 	int ad_bet=p.min_bet;
 	public int ace_five(){
-		if(shoe.ace_five >=2 && ad_bet*2<=p.max_bet){
+		if(Shoe.ace_five >=2 && ad_bet*2<=p.max_bet){
 			ad_bet*=2;
 		}else{
 			ad_bet=p.min_bet;

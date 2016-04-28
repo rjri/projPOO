@@ -16,7 +16,7 @@ public class Shoe {
 	int num_cards=0;
 	int cards_used=0;
 	double num_decks2;
-	int ace_five=0;
+	static int ace_five=0;
 	
 	public void shuffle(){
 		System.out.println("Shuffling...");
@@ -67,15 +67,19 @@ public class Shoe {
 		this.top=cards.iterator();
 	}
 	
-	public Card getCard(){
+	public Card getCard(boolean hole){
 		if(top.hasNext()&&num_reset>cards_used){
 			Card a=top.next();
-			cardCounter(a);
+			if(!hole){
+				cardCounter(a);
+			}
 			return a;
 		}else{
 			shuffle();
 			Card a=top.next();
-			cardCounter(a);
+			if(!hole){
+				cardCounter(a);
+			}
 			return a;
 		}
 	}

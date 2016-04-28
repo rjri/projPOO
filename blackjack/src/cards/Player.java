@@ -17,6 +17,17 @@ public class Player {
 		return balance;
 	}
 	
+	float ad_bet=min_bet;
+	public float ace_five(){
+		if(Shoe.ace_five >=2 && ad_bet*2<=max_bet){
+			ad_bet*=2;
+		}else{
+			ad_bet=min_bet;
+		}
+		
+		return ad_bet;
+	}
+	
 	public void stats(){
 		System.out.println("BJ P/D   "+(float)pbj/bets+"/"+(float)dbj/bets);
 		System.out.println("Win      "+(float)wins/bets);

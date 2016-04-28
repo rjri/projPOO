@@ -15,6 +15,7 @@ public class Deal {
 	private boolean split=false;
 	private boolean splitc=false;
 	private boolean splitace=false;
+	private boolean insure=false;
 	private Deal d1, d2;
 	public boolean enddeal=false;
 	private boolean enddeal1=false;
@@ -27,8 +28,8 @@ public class Deal {
 	public Deal(int bet, Shoe sh, Player p){
 		this.bet_value=bet;
 		this.shoe=sh;
-		this.p_hand=new Hand(shoe.getCard(),shoe.getCard());
-		d_hand=new Hand(shoe.getCard(),shoe.getCard());
+		this.p_hand=new Hand(shoe.getCard(false),shoe.getCard(false));
+		d_hand=new Hand(shoe.getCard(false),shoe.getCard(true));
 		this.p=p;
 		dealerdone=false;
 		d_bust=false;
@@ -38,7 +39,7 @@ public class Deal {
 	public Deal(int bet, Shoe sh, Player p, Card pc){
 		this.bet_value=bet;
 		this.shoe=sh;
-		this.p_hand=new Hand(pc,shoe.getCard());
+		this.p_hand=new Hand(pc,shoe.getCard(false));
 		this.p=p;
 		splitc=true;
 		if(pc.val==11){
@@ -68,14 +69,14 @@ public class Deal {
 	
 	public void hit(){
 		if(!bust){
-			p_hand.hit(shoe.getCard());
+			p_hand.hit(shoe.getCard(false));
 			bust=p_hand.bust();
 		}
 	}
 	
 	public void doubleDown(){
 		bet_value*=2;
-		p_hand.hit(shoe.getCard());
+		p_hand.hit(shoe.getCard(false));
 		bust=p_hand.bust();
 	}
 	
@@ -84,10 +85,11 @@ public class Deal {
 		if(d_hand.blackjack){
 			System.out.println("Blackjack!");
 		}
+		shoe.cardCounter(d_hand.cards.peekLast());
 		if(!dealerdone){
 			while(!d_bust && d_hand.value()<17){
 				System.out.println("Dealer hits");
-				d_hand.hit(shoe.getCard());
+				d_hand.hit(shoe.getCard(false));
 				System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 				d_bust=d_hand.bust();
 				dealerdone=true;
@@ -108,13 +110,15 @@ public class Deal {
 	
 	public int payout(Hand p_hand){
 		bust=p_hand.bust();
-		/*if(!splitc&&!split){
+		if(insure &&!splitc&&!split){
 			if(d_hand.blackjack){
-				p.balance+=2*ins_value;
+				p.balance+=bet_value;
+				System.out.println("Player wins insurance and his current balance is "+p.balance);
 			}else{
-				p.balance-=ins_value;
+				p.balance-=bet_value;
+				System.out.println("Player loses insurance and his current balance is "+p.balance);
 			}
-		}*/
+		}
 		if(bust){
 			if(!splitc&&!split){
 				p.balance-=bet_value;
@@ -285,7 +289,7 @@ public class Deal {
 				enddeal=true;
 			}
 			if(s.equals("2")){
-				if(!splitace && p_hand.cards.size()==2 && p_hand.value()>=9 && p_hand.value()<=11){
+				if(!insure && !splitace && p_hand.cards.size()==2 && p_hand.value()>=9 && p_hand.value()<=11){
 					doubleDown();
 					System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 					if(bust){
@@ -303,7 +307,7 @@ public class Deal {
 				}
 			}
 			if(s.equals("u")){
-				if(!splitc&&p_hand.cards.size()==2){
+				if(!insure && !splitc&&p_hand.cards.size()==2){
 					p.balance-=0.5*bet_value;
 					System.out.println("Player surrenders and his current balance is "+p.balance);
 					Player.bets++;
@@ -317,7 +321,8 @@ public class Deal {
 				if(!splitc&&p_hand.cards.size()==2 && d_hand.cards.peekFirst().val==11){
 					//ins_value=0.5*bet_value;
 					System.out.println("Player takes insurance");
-					if(d_hand.cards.peekLast().val==10){
+					insure=true;
+					/*if(d_hand.cards.peekLast().val==10){
 						System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 						System.out.println("Blackjack!");
 						Player.dbj++;
@@ -332,13 +337,13 @@ public class Deal {
 					}else{
 						System.out.println("Dealer does not have a blackjack");
 						p.balance-=0.5*bet_value;
-					}
+					}*/
 				}else{
 					System.out.println("i: illegal command");	
 				}
 			}
 			if(s.equals("p")){
-				if(p_hand.cards.size()==2 && p_hand.cards.peekFirst().val==p_hand.cards.peekLast().val){
+				if(!insure && p_hand.cards.size()==2 && p_hand.cards.peekFirst().val==p_hand.cards.peekLast().val){
 					d1=new Deal(bet_value,shoe,p,p_hand.cards.peekFirst());
 					System.out.println("First deal:");
 					d1.showDeal();
@@ -353,6 +358,8 @@ public class Deal {
 			}
 			if(s.equals("ad")){
 				System.out.println("Basic strategy: " + basicStrategy());
+				System.out.println("Hilo strategy: " + hilo());
+				System.out.println("True count: " + shoe.true_count);
 			}
 		}
 	}
@@ -509,4 +516,154 @@ public class Deal {
 		}
 		return "Invalid hand";
 	}
+	
+	public String hilo(){
+		if(p_hand.cards.size()==2){
+			if(d_hand.cards.peekFirst().val==11){
+				if(shoe.true_count>=3){
+					return "i";
+				}
+			}
+			if(p_hand.cards.peekFirst().val== p_hand.cards.peekLast().val && p_hand.value() == 20){			
+				if(d_hand.cards.peekFirst().val == 5){
+					if(shoe.true_count>=5){
+						return "p";
+					}
+					return "s";				
+				}
+				if(d_hand.cards.peekFirst().val == 6){
+					if(shoe.true_count>=4){
+						return "p";
+					}
+				return "s";
+				}			
+			}	
+		}else{
+			if(p_hand.value()==9){
+				if(d_hand.cards.peekFirst().val==2){
+					if(shoe.true_count>=1){
+						return "2";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==7){
+					if(shoe.true_count>=3){
+						return "2";
+					}
+					return "h";
+				}	
+			}
+			if(p_hand.value()==10){
+				if(d_hand.cards.peekFirst().val==10 || d_hand.cards.peekFirst().val==11){
+					if(shoe.true_count>=4){
+						return "2";
+					}
+					return "h";
+				}
+			}
+			if(p_hand.value()==11){
+				if(d_hand.cards.peekFirst().val==11){
+					if(shoe.true_count>=1){
+						return "2";
+					}
+					return "h";
+				}	
+			}
+			if(p_hand.value()==12){
+				if(d_hand.cards.peekFirst().val==2){
+					if(shoe.true_count>=3){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==3){
+					if(shoe.true_count>=2){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==4){
+					if(shoe.true_count>=0){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==5){
+					if(shoe.true_count>=-2){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==6){
+					if(shoe.true_count>=-1){
+						return "s";
+					}
+					return "h";
+				}
+			}
+			if(p_hand.value()==13){
+				if(d_hand.cards.peekFirst().val==2){
+					if(shoe.true_count>=-1){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==3){
+					if(shoe.true_count>=-2){
+						return "s";
+					}
+					return "h";
+				}
+			}
+			if(p_hand.value()==14){
+				if(d_hand.cards.peekFirst().val==10){
+					if(shoe.true_count>=3&&p_hand.cards.size()==2){
+						return "u";
+					}
+					return basicStrategy();
+				}		
+			}
+			if(p_hand.value()==15){
+				if(d_hand.cards.peekFirst().val==9){
+					if(shoe.true_count>=2&&p_hand.cards.size()==2){
+						return "u";
+					}
+					return basicStrategy();
+				}
+				if(d_hand.cards.peekFirst().val==10){
+					if(shoe.true_count>=0 && shoe.true_count<=3&&p_hand.cards.size()==2){
+						return "u";
+					}
+					if(shoe.true_count>=4){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==11){
+					if(shoe.true_count>=1&&p_hand.cards.size()==2){
+						return "u";
+					}
+					return basicStrategy();
+				}	
+			}
+			if(p_hand.value()==16){
+				if(d_hand.cards.peekFirst().val==9){
+					if(shoe.true_count>=5){
+						return "s";
+					}
+					return "h";
+				}
+				if(d_hand.cards.peekFirst().val==10){
+					if(d_hand.cards.peekFirst().val==9){
+						if(shoe.true_count>=0){
+							return "s";
+						}
+						return "h";
+					}
+				}
+			}
+		}
+		return basicStrategy();
+	}
+
 }
