@@ -197,7 +197,9 @@ public class Deal {
 				}else{
 					if(s.equals("s")){
 						d1.enddeal=true;
-						shoe.middeal=false;
+						if(!splitc){
+							shoe.middeal=false;
+						}	
 					}else{
 						if(!s.equals("ad")&&!s.equals("$")){
 							System.out.println(s+": illegal command");
@@ -275,10 +277,11 @@ public class Deal {
 						if(!splitc){
 							dealer_play();
 							po=payout(p_hand);
+							shoe.middeal=false;
 						}
 						Player.bets++;
 						enddeal=true;
-						shoe.middeal=false;
+						
 					}
 				}else{
 					System.out.println("h: illegal command");
@@ -288,10 +291,11 @@ public class Deal {
 				if(!splitc){
 					dealer_play();
 					po=payout(p_hand);
+					shoe.middeal=false;
 				}
 				Player.bets++;
 				enddeal=true;
-				shoe.middeal=false;
+				
 			}
 			if(s.equals("2")){
 				if(!insure && !splitace && p_hand.cards.size()==2 && p_hand.value()>=9 && p_hand.value()<=11){
@@ -303,11 +307,12 @@ public class Deal {
 					if(!splitc){
 						dealer_play();
 						po=payout(p_hand);
+						shoe.middeal=false;
 					}
 					p_hand.doublesplit=true;
 					Player.bets++;
 					enddeal=true;
-					shoe.middeal=false;
+					
 				}else{
 					System.out.println("2: illegal command");	
 				}
