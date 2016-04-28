@@ -223,7 +223,7 @@ public class Deal {
 						d2.input(s);
 					}else{
 						d2.enddeal=true;
-						shoe.middeal=false;
+						//shoe.middeal=false;
 					}
 					if(d2.enddeal){
 						if(!d2.split){
@@ -261,9 +261,10 @@ public class Deal {
 							}
 							p.balance+=po;
 							System.out.println("Player gains "+po+" and his current balance is "+p.balance);
+							shoe.middeal=false;
 						}
 						enddeal=true;
-						shoe.middeal=false;
+						//shoe.middeal=false;
 					}
 				}
 			}
