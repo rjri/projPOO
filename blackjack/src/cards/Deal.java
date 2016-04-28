@@ -277,6 +277,10 @@ public class Deal {
 						System.out.println("Player busts");
 						if(!splitc){
 							//dealer_play();
+							System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+							if(d_hand.blackjack){
+								System.out.println("Blackjack!");
+							}
 							shoe.cardCounter(d_hand.cards.peekLast());
 							po=payout(p_hand);
 							shoe.middeal=false;
