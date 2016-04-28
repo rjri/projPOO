@@ -276,7 +276,8 @@ public class Deal {
 					if(bust){
 						System.out.println("Player busts");
 						if(!splitc){
-							dealer_play();
+							//dealer_play();
+							shoe.cardCounter(d_hand.cards.peekLast());
 							po=payout(p_hand);
 							shoe.middeal=false;
 						}
@@ -507,7 +508,7 @@ public class Deal {
 					if( d_hand.cards.peekFirst().val<=6){
 						return "s";
 					}else{
-						if(d_hand.cards.peekFirst().val==10 && p_hand.cards.size()==2){
+						if(d_hand.cards.peekFirst().val==10 && p_hand.cards.size()==2 && !splitc){
 							return "u";
 						}else{
 							return "h";
@@ -518,7 +519,7 @@ public class Deal {
 					if( d_hand.cards.peekFirst().val<=6){
 						return "s";
 					}else{
-						if(d_hand.cards.peekFirst().val>=9 && p_hand.cards.size()==2){
+						if(d_hand.cards.peekFirst().val>=9 && p_hand.cards.size()==2 && !splitc){
 							return "u";
 						}else{
 							return "h";
@@ -533,7 +534,7 @@ public class Deal {
 	public String hilo(){
 		if(p_hand.cards.size()==2){
 			if(d_hand.cards.peekFirst().val==11){
-				if(shoe.true_count>=3){
+				if(shoe.true_count>=3 && !splitc){
 					return "i";
 				}
 			}
@@ -630,7 +631,7 @@ public class Deal {
 			}
 			if(p_hand.value()==14){
 				if(d_hand.cards.peekFirst().val==10){
-					if(shoe.true_count>=3&&p_hand.cards.size()==2){
+					if(shoe.true_count>=3&&p_hand.cards.size()==2 && !splitc){
 						return "u";
 					}
 					return basicStrategy();
@@ -638,13 +639,13 @@ public class Deal {
 			}
 			if(p_hand.value()==15){
 				if(d_hand.cards.peekFirst().val==9){
-					if(shoe.true_count>=2&&p_hand.cards.size()==2){
+					if(shoe.true_count>=2&&p_hand.cards.size()==2 && !splitc){
 						return "u";
 					}
 					return basicStrategy();
 				}
 				if(d_hand.cards.peekFirst().val==10){
-					if(shoe.true_count>=0 && shoe.true_count<=3&&p_hand.cards.size()==2){
+					if(shoe.true_count>=0 && shoe.true_count<=3&&p_hand.cards.size()==2 && !splitc){
 						return "u";
 					}
 					if(shoe.true_count>=4){
@@ -653,7 +654,7 @@ public class Deal {
 					return "h";
 				}
 				if(d_hand.cards.peekFirst().val==11){
-					if(shoe.true_count>=1&&p_hand.cards.size()==2){
+					if(shoe.true_count>=1&&p_hand.cards.size()==2 && !splitc){
 						return "u";
 					}
 					return basicStrategy();
