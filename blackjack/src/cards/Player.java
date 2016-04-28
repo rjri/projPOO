@@ -19,7 +19,10 @@ public class Player {
 	
 	float ad_bet=min_bet;
 	public float ace_five(){
-		if(Shoe.ace_five >=2 && ad_bet*2<=max_bet){
+		if(Shoe.ace_five >=2){
+			if(ad_bet*2>=max_bet){
+				return max_bet;
+			}
 			ad_bet*=2;
 		}else{
 			ad_bet=min_bet;

@@ -9,19 +9,21 @@ public class Shoe {
 	private int num_decks;
 	LinkedList<Card> cards=new LinkedList<Card>();
 	private Iterator<Card> top;
+	private Iterator<Card> first;
 	int num_reset;
 	boolean reset=false;
 	double run_count=0;
 	double true_count=0;
-	int num_cards=0;
-	int cards_used=0;
-	double num_decks2;
+	float cards_used=0;
+	float num_decks2;
 	static int ace_five=0;
+	boolean middeal=true;
 	
 	public void shuffle(){
 		System.out.println("Shuffling...");
 		Collections.shuffle(cards);
 		top=cards.iterator();
+		cards_used=0;
 		reset=true;
 	}
 	
@@ -67,7 +69,14 @@ public class Shoe {
 		this.top=cards.iterator();
 	}
 	
-	public Card getCard(boolean hole){
+	/*public Card getCard(boolean hole){
+		if(cards_used==10){
+			first=cards.iterator();
+			Card z=first.next();
+			System.out.println("first card:" +z);
+		}
+		
+		
 		if(top.hasNext()&&num_reset>cards_used){
 			Card a=top.next();
 			if(!hole){
@@ -82,12 +91,37 @@ public class Shoe {
 			}
 			return a;
 		}
+	}*/
+	public Card getCard(boolean hole){
+		
+		//System.out.println("cards used"+cards_used+" middeal:"+middeal+"");
+		if(num_reset<cards_used && !middeal){
+			shuffle();
+			Card a=top.next();
+			if(!hole){
+				cardCounter(a);
+			}
+			return a;	
+		}	
+		middeal=true;
+		if(top.hasNext()){
+			Card a=top.next();
+			if(!hole){
+				cardCounter(a);
+			}
+			return a;
+		}else{
+			top=cards.iterator();
+			Card a=top.next();
+			if(!hole){
+				cardCounter(a);
+			}
+			return a;
+		}
 	}
 	
 	public void cardCounter(Card a){
 		if(reset){
-			num_cards=0;
-			cards_used=0;
 			num_decks2=num_decks;
 			run_count=0;
 			ace_five=0;
@@ -101,11 +135,9 @@ public class Shoe {
 			ace_five--;
 		}
 		cards_used++;
-		num_cards++;
-		if(num_cards==52){
-			num_decks2--;
-			num_cards=0;
-		}
+		//num_cards++;
+		num_decks2=num_decks-(cards_used/52);
+		
 		if(a.val >=2 && a.val<=6){
 			run_count++;
 		}
@@ -113,7 +145,7 @@ public class Shoe {
 			run_count--;
 		}
 		true_count=(run_count/num_decks2);
-		//System.out.println("true count: " +true_count + "run count:" +run_count +" "+num_decks2+"");
+		//System.out.println("true count: " +true_count + "run count:" +run_count +" num remaining decks"+num_decks2+" cards used"+cards_used+"");
 	}
 	@Override
 	public String toString() {
