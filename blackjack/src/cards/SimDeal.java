@@ -30,7 +30,7 @@ public class SimDeal{
 		int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>p.min_bet && nbit <1000){
+		while(p.balance>p.min_bet && nbit <50000){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -45,6 +45,9 @@ public class SimDeal{
 						next_bet=p.min_bet;
 					}
 				}
+			}
+			if(next_bet>p.balance){
+				next_bet=(int)p.balance;
 			}
 			System.out.println("bet:"+ next_bet);
 			p.splitcount=0;
@@ -57,12 +60,13 @@ public class SimDeal{
 			nbit++;
 		}	
 		p.stats();
+		System.out.println(nbit);
 	}
 	public void simulationHL(boolean acefive){
 		int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>=p.min_bet && nbit <10000){
+		while(p.balance>=p.min_bet && nbit <50000){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -77,6 +81,9 @@ public class SimDeal{
 						next_bet=p.min_bet;
 					}
 				}
+			}
+			if(next_bet>p.balance){
+				next_bet=(int)p.balance;
 			}
 			System.out.println("bet:"+ next_bet);
 			p.splitcount=0;

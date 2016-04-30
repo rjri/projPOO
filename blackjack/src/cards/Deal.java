@@ -203,15 +203,14 @@ public class Deal {
 				if(s.equals("s")){
 					System.out.println("Player stands");
 					d1.enddeal=true;
-					if(!splitc){
-						shoe.middeal=false;
-					}	
+					//shoe.middeal=false;	
 				}else{
 					if(!s.equals("ad")&&!s.equals("$")){
 						System.out.println(s+": illegal command");
 					}
 					if(s.equals("ad")){
 						System.out.println("Basic strategy: s");
+						System.out.println("Hilo strategy: s");
 					}
 				}
 			}
@@ -378,6 +377,7 @@ public class Deal {
 			}
 			if(s.equals("p")){
 				if(!insure && p_hand.cards.size()==2 && p_hand.cards.peekFirst().val==p_hand.cards.peekLast().val && p.splitcount<=2){
+					System.out.println("Player is splitting");
 					d1=new Deal(bet_value,shoe,p,p_hand.cards.peekFirst(),sim);
 					System.out.println("First deal:");
 					d1.showDeal();
@@ -496,8 +496,9 @@ public class Deal {
 				}else{
 					if(!insure&& p.splitcount<=2){
 						return "p";	
-					}
-					return hardbasicStrategy();	
+					}		
+					//return hardbasicStrategy(); cannot use this because 2,2 is not on the hardtable
+					return "h";
 				}
 			}
 			if(p_hand.cards.peekFirst().val==4){
@@ -579,7 +580,8 @@ public class Deal {
 	}
 	
 	public String hilo(){
-			
+	//	System.out.println("True count: " + shoe.true_count);
+		//System.out.println("Run count: " + shoe.run_count);	
 		if(!enddeal1){
 			if(d_hand.cards.peekFirst().val==11){
 				if(shoe.true_count>=3 && !splitc && !insure &&p_hand.cards.size()==2){
