@@ -201,7 +201,7 @@ public class Deal {
 				d1.input(s);
 			}else{
 				if(s.equals("s")){
-					System.out.println("Player stands");
+					System.out.println("player stands");
 					d1.enddeal=true;
 					//shoe.middeal=false;	
 				}else{
@@ -227,7 +227,7 @@ public class Deal {
 				if(!d2.enddeal1){
 					d2.input(s);
 				}else{
-					System.out.println("Player stands");
+					System.out.println("player stands");
 					d2.enddeal=true;
 					//shoe.middeal=false;
 				}
@@ -282,7 +282,8 @@ public class Deal {
 			if(s.equals("h")){
 				if(!splitace){
 					hit();
-					System.out.println("h Player's hand: "+p_hand+" ("+p_hand.value()+")");
+					System.out.println("player hits");
+					System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 					if(bust){
 						System.out.println("Player busts");
 						if(!splitc){
@@ -301,12 +302,11 @@ public class Deal {
 					}
 				}else{
 					System.out.println("h: illegal command");
-					System.exit(0);
 				}
 			}
 			if(s.equals("s")){
 				if(!splitc){
-					System.out.println("Player stands");
+					System.out.println("player stands");
 					dealer_play();
 					po=payout(p_hand);
 					shoe.middeal=false;
@@ -333,20 +333,20 @@ public class Deal {
 					
 				}else{
 					System.out.println("2: illegal command");	
-					System.exit(0);
 				}
 			}
 			if(s.equals("u")){
 				if(!insure && !splitc&&p_hand.cards.size()==2){
 					p.balance-=0.5*bet_value;
-					System.out.println("Player surrenders and his current balance is "+p.balance);
+					System.out.println("player is surrendering");
+					System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+					System.out.println("Player's current balance is "+p.balance);
 					Player.bets++;
 					Player.losses++;
 					enddeal=true;
 					shoe.middeal=false;
 				}else{
 					System.out.println("u: illegal command");	
-					System.exit(0);
 				}
 			}
 			if(s.equals("i")){
@@ -372,7 +372,6 @@ public class Deal {
 					}*/
 				}else{
 					System.out.println("i: illegal command");
-					System.exit(0);
 				}
 			}
 			if(s.equals("p")){
@@ -388,7 +387,6 @@ public class Deal {
 					split=true;
 				}else{
 					System.out.println("p: illegal command");
-					System.exit(0);
 				}
 			}
 			if(s.equals("ad")){
@@ -580,7 +578,7 @@ public class Deal {
 	}
 	
 	public String hilo(){
-	//	System.out.println("True count: " + shoe.true_count);
+		//System.out.println("True count: " + shoe.true_count);
 		//System.out.println("Run count: " + shoe.run_count);	
 		if(!enddeal1){
 			if(d_hand.cards.peekFirst().val==11){

@@ -30,7 +30,7 @@ public class SimDeal{
 		int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>p.min_bet && nbit <50000){
+		while(p.balance>p.min_bet && nbit <25000){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -49,7 +49,9 @@ public class SimDeal{
 			if(next_bet>p.balance){
 				next_bet=(int)p.balance;
 			}
-			System.out.println("bet:"+ next_bet);
+			System.out.println("----------------------------------------");
+			System.out.println("----------------------------------------");
+			System.out.println("player is betting "+ next_bet);
 			p.splitcount=0;
 			Deal deal=new Deal(next_bet,shoe,p,true);
 			deal.showDeal();
@@ -66,7 +68,7 @@ public class SimDeal{
 		int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>=p.min_bet && nbit <50000){
+		while(p.balance>=p.min_bet && nbit <25000){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -85,7 +87,9 @@ public class SimDeal{
 			if(next_bet>p.balance){
 				next_bet=(int)p.balance;
 			}
-			System.out.println("bet:"+ next_bet);
+			System.out.println("----------------------------------------");
+			System.out.println("----------------------------------------");
+			System.out.println("player is betting "+ next_bet);
 			p.splitcount=0;
 			Deal deal=new Deal(next_bet,shoe,p,true);
 			deal.showDeal();

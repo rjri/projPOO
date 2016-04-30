@@ -143,7 +143,7 @@ public class Shoe {
 		if(a.val ==10 || a.val==11){
 			run_count--;
 		}
-		true_count=(run_count/num_decks2);
+		true_count=(double) Math.round(run_count/num_decks2);
 		//System.out.println("true count: " +true_count + "run count:" +run_count +" num remaining decks"+num_decks2+" cards used"+cards_used+"");
 	}
 	@Override

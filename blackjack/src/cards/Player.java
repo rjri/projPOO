@@ -27,7 +27,6 @@ public class Player {
 		}else{
 			ad_bet=min_bet;
 		}
-		
 		return ad_bet;
 	}
 	
