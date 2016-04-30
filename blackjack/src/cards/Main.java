@@ -16,7 +16,8 @@ public class Main {
 		int balance=1000;
 		int shoesize=4;
 		int shuffle=50;
-		if(args[0].equals("-i")){
+		String sim_mode;
+		if(args[0].equals("-i") || args[0].equals("-s") ){
 			try{
 				min_bet=Integer.parseInt(args[1]);
 				if(min_bet<1){
@@ -42,6 +43,22 @@ public class Main {
 				if(shuffle<10 || shuffle>100){
 					System.out.println("shuffle must be an integer between 10 and 100");
 					System.exit(1);
+				}
+				if(args[0].equals("-s")){
+					sim_mode=args[6];	
+					System.out.println(sim_mode);
+					if(sim_mode.equals("BS") || sim_mode.equals("HL") || sim_mode.equals("HL-AF") || sim_mode.equals("BS-AF")){
+						Shoe shoe=new Shoe(shoesize,shuffle);
+						Player p =new Player(balance,min_bet,max_bet);
+						Player.init_balance=balance;
+						SimDeal sd=new SimDeal(shoe,p);
+						sd.playSim(sim_mode);
+						System.out.println("Bye");
+						System.exit(0);
+					}else{
+						System.out.println("simulation mode must be one of the following: BS, HL, HL-AF or BS-AF");
+						System.exit(1);
+					}
 				}
 			}catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
 				System.out.println("Usage: -i min_bet max_bet balance shoesize shuffle");
@@ -115,7 +132,7 @@ public class Main {
 			if(valid){
 				if(s.equals("d")){
 					if(bet_done){
-						Deal deal=new Deal(bet_amount,shoe,p);
+						Deal deal=new Deal(bet_amount,shoe,p,false);
 						deal.showDeal();
 						while(!deal.enddeal){
 							s=br.readLine();

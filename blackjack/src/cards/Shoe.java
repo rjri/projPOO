@@ -9,7 +9,6 @@ public class Shoe {
 	private int num_decks;
 	LinkedList<Card> cards=new LinkedList<Card>();
 	private Iterator<Card> top;
-	private Iterator<Card> first;
 	int num_reset;
 	boolean reset=false;
 	double run_count=0;

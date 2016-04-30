@@ -6,7 +6,7 @@ public class Player {
 	public int min_bet;
 	public int max_bet;
 	static int bets=0, wins=0, losses=0, pushes=0, init_balance=0, pbj=0, dbj=0;
-	
+	float splitcount=0;
 	public Player(int bal,int min, int max){
 		this.balance=bal;
 		this.min_bet=min;
@@ -17,8 +17,8 @@ public class Player {
 		return balance;
 	}
 	
-	float ad_bet=min_bet;
-	public float ace_five(){
+	int ad_bet=min_bet;
+	public int ace_five(){
 		if(Shoe.ace_five >=2){
 			if(ad_bet*2>=max_bet){
 				return max_bet;
