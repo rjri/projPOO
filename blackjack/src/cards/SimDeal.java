@@ -136,7 +136,7 @@ public class SimDeal{
 						}
 					}
 					while(!deal.d2.d2.enddeal){
-						deal.d2.input(deal.d2.d2.hilo());
+						deal.input(deal.d2.d2.hilo());
 						if(deal.d2.d2.split){//third split
 							while(!deal.d2.d2.d1.enddeal){
 								deal.input(deal.d2.d2.d1.hilo());
