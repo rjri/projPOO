@@ -52,7 +52,7 @@ public class SimDeal{
 			deal.showDeal();
 			while(!deal.enddeal){
 				deal.input(deal.basicStrategy());
-				simulationSplit(deal);
+				simulationSplitBS(deal);
 			}
 			nbit++;
 		}	
@@ -84,7 +84,7 @@ public class SimDeal{
 			deal.showDeal();
 			while(!deal.enddeal){
 				deal.input(deal.hilo());
-				simulationSplit(deal);
+				simulationSplitHL(deal);
 			}
 			nbit++;
 		}	
@@ -92,7 +92,7 @@ public class SimDeal{
 		System.out.println(nbit);
 	}
 	
-	public void simulationSplit(Deal deal){
+	public void simulationSplitHL(Deal deal){
 		if(deal.split){//first split
 			while(!deal.d1.enddeal){
 				deal.input(deal.d1.hilo());
@@ -136,13 +136,71 @@ public class SimDeal{
 						}
 					}
 					while(!deal.d2.d2.enddeal){
-						deal.input(deal.d2.d2.hilo());
+						deal.d2.input(deal.d2.d2.hilo());
 						if(deal.d2.d2.split){//third split
 							while(!deal.d2.d2.d1.enddeal){
 								deal.input(deal.d2.d2.d1.hilo());
 							}
 							while(!deal.d2.d2.d2.enddeal){
 								deal.input(deal.d2.d2.d2.hilo());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	public void simulationSplitBS(Deal deal){
+		if(deal.split){//first split
+			while(!deal.d1.enddeal){
+				deal.input(deal.d1.basicStrategy());
+				if(deal.d1.split){//Second split
+					while(!deal.d1.d1.enddeal){
+						deal.input(deal.d1.d1.basicStrategy());
+						if(deal.d1.d1.split){//third split
+							while(!deal.d1.d1.d1.enddeal){
+								deal.input(deal.d1.d1.d1.basicStrategy());
+							}
+							while(!deal.d1.d1.d2.enddeal){
+								deal.input(deal.d1.d1.d2.basicStrategy());
+							}
+						}
+					}
+					while(!deal.d1.d2.enddeal){
+						deal.input(deal.d1.d2.basicStrategy());
+						if(deal.d1.d2.split){//third split
+							while(!deal.d1.d2.d1.enddeal){
+								deal.input(deal.d1.d2.d1.basicStrategy());
+							}
+							while(!deal.d1.d2.d2.enddeal){
+								deal.input(deal.d1.d2.d2.basicStrategy());
+							}
+						}
+					}
+				}
+			}
+			while(!deal.d2.enddeal){
+				deal.input(deal.d2.basicStrategy());
+				if(deal.d2.split){//Second split
+					while(!deal.d2.d1.enddeal){
+						deal.input(deal.d2.d1.basicStrategy());
+						if(deal.d2.d1.split){//third split
+							while(!deal.d2.d1.d1.enddeal){
+								deal.input(deal.d2.d1.d1.basicStrategy());
+							}
+							while(!deal.d2.d1.d2.enddeal){
+								deal.input(deal.d2.d1.d2.basicStrategy());
+							}
+						}
+					}
+					while(!deal.d2.d2.enddeal){
+						deal.input(deal.d2.d2.basicStrategy());
+						if(deal.d2.d2.split){//third split
+							while(!deal.d2.d2.d1.enddeal){
+								deal.input(deal.d2.d2.d1.basicStrategy());
+							}
+							while(!deal.d2.d2.d2.enddeal){
+								deal.input(deal.d2.d2.d2.basicStrategy());
 							}
 						}
 					}
