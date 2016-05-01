@@ -85,8 +85,13 @@ public class Shoe {
 	    while (st.hasMoreTokens()) {
 	        //System.out.println(st.nextToken());
 	    	aux=st.nextToken();
-	        Card carta=new Card(Character.toString(aux.charAt(0)),Character.toString(aux.charAt(1)));
-	        cards.add(carta);
+	    	if(Character.toString(aux.charAt(0)).equals("1")){
+	    		 Card carta=new Card("10",Character.toString(aux.charAt(2)));
+	    		 cards.add(carta);
+	    	}else{
+	    		Card carta=new Card(Character.toString(aux.charAt(0)),Character.toString(aux.charAt(1)));
+	    		cards.add(carta);
+	    	}	
 	    }
 	    float n=cards.size()/52;
 	    this.num_decks=n;

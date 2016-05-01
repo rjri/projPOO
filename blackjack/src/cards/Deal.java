@@ -29,8 +29,8 @@ public class Deal {
 	public Deal(int bet, Shoe sh, Player p,boolean sim){
 		this.bet_value=bet;
 		this.shoe=sh;
-		this.p_hand=new Hand(shoe.getCard(false),shoe.getCard(false));
 		d_hand=new Hand(shoe.getCard(false),shoe.getCard(true));
+		this.p_hand=new Hand(shoe.getCard(false),shoe.getCard(false));
 		this.p=p;
 		dealerdone=false;
 		d_bust=false;
