@@ -1,10 +1,20 @@
 package cards;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.StringTokenizer;
+
 public class SimDeal{
 	
+
 	Shoe shoe;
 	Player p;
 	int next_bet;
+	String next_cmd;
+	
 	public SimDeal(Shoe sh,Player p){
 		this.shoe=sh;
 		this.p=p;
@@ -214,6 +224,70 @@ public class SimDeal{
 								deal.input(deal.d2.d2.d2.basicStrategy());
 							}
 						}
+					}
+				}
+			}
+		}
+	}
+	public void playDebug(String commands) throws IOException{
+		Reader in = new FileReader(commands);
+		BufferedReader br=new BufferedReader(in);
+		commands=br.readLine();
+		StringTokenizer st = new StringTokenizer(commands);
+		String aux;
+		next_bet=p.min_bet;
+		String[] validinputs=new String[11];
+		validinputs[0]="d";
+		validinputs[1]="$";
+		validinputs[2]="q";
+		validinputs[3]="st";
+		validinputs[4]="ad";
+		validinputs[5]="h";
+		validinputs[6]="s";
+		validinputs[7]="i";
+		validinputs[8]="u";
+		validinputs[9]="p";
+		validinputs[10]="2";
+		Deal deal = null;
+		while(st.hasMoreTokens()){
+			next_cmd=st.nextToken();
+			if(next_cmd.equals("b")){
+				if(st.hasMoreTokens()){
+					aux=st.nextToken();
+					if(aux.equals("d")){
+						System.out.println("Player is betting  " + next_bet);
+						deal=new Deal(next_bet,shoe,p,false);
+						deal.showDeal();
+					}else{
+						next_bet=Integer.parseInt(aux);
+						System.out.println("Player is betting  " + next_bet);
+					}
+				}
+			}
+			for(int i=0;i<4;i++){
+				if(validinputs[i].equals(next_cmd)){
+					if(next_cmd.equals("d")){
+						deal=new Deal(next_bet,shoe,p,false);
+						deal.showDeal();
+					}
+					if(next_cmd.equals("q")){
+						System.out.println("Bye");
+						System.exit(0);
+					}
+					if(next_cmd.equals("$")){
+						System.out.println("Player's current balance is "+p.showBalance());
+					}
+					if(next_cmd.equals("st")){
+						p.stats();
+					}
+				}
+			}	
+			for(int i=4;i<10;i++){
+				if(validinputs[i].equals(next_cmd)){
+					if(deal!=null){
+						deal.input(next_cmd);
+					}else{
+						System.out.println("Invalid commanddddd");
 					}
 				}
 			}

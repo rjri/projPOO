@@ -17,7 +17,10 @@ public class Main {
 		int shoesize=4;
 		int shuffle=50;
 		String sim_mode;
-		if(args[0].equals("-i") || args[0].equals("-s") ){
+		String shoefile;
+		String cmdfile;
+		
+		if(args[0].equals("-i") || args[0].equals("-s") || args[0].equals("-d")){
 			try{
 				min_bet=Integer.parseInt(args[1]);
 				if(min_bet<1){
@@ -33,6 +36,19 @@ public class Main {
 				if(balance<50*min_bet){
 					System.out.println("balance must be at least 50 times greater than min_bet");
 					System.exit(1);
+				}
+				if(args[0].equals("-d")){
+					shoefile=args[4];
+					cmdfile=args[5];
+					System.out.println(shoefile);
+					Shoe shoe=new Shoe(shoefile);
+					System.out.println(shoe);
+					Player p =new Player(balance,min_bet,max_bet);
+					Player.init_balance=balance;
+					SimDeal sd=new SimDeal(shoe,p);
+					sd.playDebug(cmdfile);
+					System.out.println("Bye");
+					System.exit(0);
 				}
 				shoesize=Integer.parseInt(args[4]);
 				if(shoesize<4 || shoesize>8){

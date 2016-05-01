@@ -1,12 +1,20 @@
 package cards;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.StringTokenizer;
 
 public class Shoe {
 
-	private int num_decks;
+	private float num_decks;
 	LinkedList<Card> cards=new LinkedList<Card>();
 	private Iterator<Card> top;
 	int num_reset;
@@ -17,6 +25,7 @@ public class Shoe {
 	float num_decks2;
 	static int ace_five=0;
 	boolean middeal=true;
+	boolean debug=false;
 	
 	public void shuffle(){
 		System.out.println("Shuffling...");
@@ -67,7 +76,24 @@ public class Shoe {
 		reset=false;
 		this.top=cards.iterator();
 	}
-	
+	public Shoe(String shoefile) throws IOException{
+		Reader in = new FileReader(shoefile);
+		BufferedReader br=new BufferedReader(in);
+		shoefile=br.readLine();
+		StringTokenizer st = new StringTokenizer(shoefile);
+		String aux;
+	    while (st.hasMoreTokens()) {
+	        //System.out.println(st.nextToken());
+	    	aux=st.nextToken();
+	        Card carta=new Card(Character.toString(aux.charAt(0)),Character.toString(aux.charAt(1)));
+	        cards.add(carta);
+	    }
+	    float n=cards.size()/52;
+	    this.num_decks=n;
+		this.num_decks2=n;
+	    debug=true;
+		this.top=cards.iterator();
+	}
 	/*public Card getCard(boolean hole){
 		if(cards_used==10){
 			first=cards.iterator();
@@ -94,13 +120,15 @@ public class Shoe {
 	public Card getCard(boolean hole){
 		
 		//System.out.println("cards used"+cards_used+" middeal:"+middeal+"");
-		if(num_reset<cards_used && !middeal){
-			shuffle();
-			Card a=top.next();
-			if(!hole){
-				cardCounter(a);
+		if(!debug){
+			if(num_reset<cards_used && !middeal){
+				shuffle();
+				Card a=top.next();
+				if(!hole){
+					cardCounter(a);
+				}
+				return a;	
 			}
-			return a;	
 		}	
 		middeal=true;
 		if(top.hasNext()){
