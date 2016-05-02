@@ -37,10 +37,10 @@ public class SimDeal{
 	}
 	
 	public void simulationBS(boolean acefive){
-		int nbit=0;
+		//int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>p.min_bet && nbit <25000){
+		while(p.balance>p.min_bet && /*nbit <25000*/ shoe.shuffcnt<shoe.nbshuffles){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -69,16 +69,16 @@ public class SimDeal{
 				deal.input(deal.basicStrategy());
 				simulationSplitBS(deal);
 			}
-			nbit++;
+			//nbit++;
 		}	
 		p.stats();
-		System.out.println(nbit);
+		System.out.println(shoe.shuffcnt);
 	}
 	public void simulationHL(boolean acefive){
-		int nbit=0;
+		//int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>=p.min_bet && nbit <25000){
+		while(p.balance>=p.min_bet &&/*nbit <25000*/ shoe.shuffcnt<shoe.nbshuffles){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -107,10 +107,10 @@ public class SimDeal{
 				deal.input(deal.hilo());
 				simulationSplitHL(deal);
 			}
-			nbit++;
+		//	nbit++;
 		}	
 		p.stats();
-		System.out.println(nbit);
+		System.out.println(shoe.shuffcnt);
 	}
 	
 	public void simulationSplitHL(Deal deal){

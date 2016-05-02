@@ -26,6 +26,8 @@ public class Shoe {
 	static int ace_five=0;
 	boolean middeal=true;
 	boolean debug=false;
+	int nbshuffles;
+	int shuffcnt=0;
 	
 	public void shuffle(){
 		System.out.println("Shuffling...");
@@ -33,6 +35,7 @@ public class Shoe {
 		top=cards.iterator();
 		cards_used=0;
 		reset=true;
+		shuffcnt++;
 	}
 	
 	public Shoe(int n, int shuff){
@@ -75,6 +78,10 @@ public class Shoe {
 		shuffle();
 		reset=false;
 		this.top=cards.iterator();
+	}
+	public Shoe(int n,int shuff,int nbshuffles){
+		this(n,shuff);
+		this.nbshuffles=nbshuffles;
 	}
 	public Shoe(String shoefile) throws IOException{
 		Reader in = new FileReader(shoefile);

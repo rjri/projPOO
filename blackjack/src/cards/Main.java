@@ -61,10 +61,11 @@ public class Main {
 					System.exit(1);
 				}
 				if(args[0].equals("-s")){
-					sim_mode=args[6];	
+					int nbShuffles=Integer.parseInt(args[6]);
+					sim_mode=args[7];	
 					System.out.println(sim_mode);
 					if(sim_mode.equals("BS") || sim_mode.equals("HL") || sim_mode.equals("HL-AF") || sim_mode.equals("BS-AF")){
-						Shoe shoe=new Shoe(shoesize,shuffle);
+						Shoe shoe=new Shoe(shoesize,shuffle,nbShuffles);
 						Player p =new Player(balance,min_bet,max_bet);
 						Player.init_balance=balance;
 						SimDeal sd=new SimDeal(shoe,p);
@@ -77,7 +78,15 @@ public class Main {
 					}
 				}
 			}catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
-				System.out.println("Usage: -i min_bet max_bet balance shoesize shuffle");
+				if(args[0].equals("-i")){
+					System.out.println("Usage: -i min_bet max_bet balance shoesize shuffle");
+				}
+				if(args[0].equals("-s")){
+					System.out.println("Usage: -s min_bet max_bet balance shoesize shuffle s-shuffle strategy");
+				}
+				if(args[0].equals("-d")){
+					System.out.println("Usage: -d min_bet max_bet balance shoefile cmd-file");
+				}
 				System.exit(1);
 			}
 		}else{
