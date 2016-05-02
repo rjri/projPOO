@@ -105,6 +105,7 @@ public class Shoe {
 		this.num_decks2=n;
 	    debug=true;
 		this.top=cards.iterator();
+		br.close();
 	}
 	/*public Card getCard(boolean hole){
 		if(cards_used==10){

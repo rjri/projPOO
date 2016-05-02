@@ -82,7 +82,7 @@ public class Main {
 					System.out.println("Usage: -i min_bet max_bet balance shoesize shuffle");
 				}
 				if(args[0].equals("-s")){
-					System.out.println("Usage: -s min_bet max_bet balance shoesize shuffle s-shuffle strategy");
+					System.out.println("Usage: -s min_bet max_bet balance shoesize shuffle s-number strategy");
 				}
 				if(args[0].equals("-d")){
 					System.out.println("Usage: -d min_bet max_bet balance shoefile cmd-file");
@@ -157,6 +157,7 @@ public class Main {
 			if(valid){
 				if(s.equals("d")){
 					if(bet_done){
+						Deal.avbets=(int) Math.floor((p.balance-bet_amount)/bet_amount);
 						Deal deal=new Deal(bet_amount,shoe,p,false);
 						deal.showDeal();
 						while(!deal.enddeal){

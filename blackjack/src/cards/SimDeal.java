@@ -40,12 +40,15 @@ public class SimDeal{
 		//int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>p.min_bet && /*nbit <25000*/ shoe.shuffcnt<shoe.nbshuffles){
+		while(p.balance>=p.min_bet && /*nbit <25000*/ shoe.shuffcnt<shoe.nbshuffles){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
 				if(Player.wins>win){
 					next_bet=next_bet+p.min_bet;
+					if(next_bet>p.max_bet){
+						next_bet=p.max_bet;
+					}
 					win=Player.wins;
 				}
 				if(Player.losses>loss){
@@ -59,9 +62,10 @@ public class SimDeal{
 			if(next_bet>p.balance){
 				next_bet=(int)p.balance;
 			}
+			Deal.avbets=(int) Math.floor((p.balance-next_bet)/next_bet);
 			System.out.println("----------------------------------------");
 			System.out.println("----------------------------------------");
-			System.out.println("player is betting "+ next_bet);
+			System.out.println("Player is betting "+ next_bet);
 			p.splitcount=0;
 			Deal deal=new Deal(next_bet,shoe,p,true);
 			deal.showDeal();
@@ -84,6 +88,9 @@ public class SimDeal{
 			}else{
 				if(Player.wins>win){
 					next_bet=next_bet+p.min_bet;
+					if(next_bet>p.max_bet){
+						next_bet=p.max_bet;
+					}
 					win=Player.wins;
 				}
 				if(Player.losses>loss){
@@ -97,9 +104,10 @@ public class SimDeal{
 			if(next_bet>p.balance){
 				next_bet=(int)p.balance;
 			}
+			Deal.avbets=(int) Math.floor((p.balance-next_bet)/next_bet);
 			System.out.println("----------------------------------------");
 			System.out.println("----------------------------------------");
-			System.out.println("player is betting "+ next_bet);
+			System.out.println("Player is betting "+ next_bet);
 			p.splitcount=0;
 			Deal deal=new Deal(next_bet,shoe,p,true);
 			deal.showDeal();
