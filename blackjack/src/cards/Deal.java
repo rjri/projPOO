@@ -292,6 +292,7 @@ public class Deal {
 							System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 							if(d_hand.blackjack){
 								System.out.println("Blackjack!");
+								Player.dbj++;
 							}
 							shoe.cardCounter(d_hand.cards.peekLast());
 							po=payout(p_hand);
@@ -342,6 +343,10 @@ public class Deal {
 					p.balance-=0.5*bet_value;
 					System.out.println("Player is surrendering");
 					System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
+					if(d_hand.blackjack){
+						System.out.println("Blackjack!");
+						Player.dbj++;
+					}
 					System.out.println("Player's current balance is "+p.balance);
 					Player.bets++;
 					Player.losses++;
