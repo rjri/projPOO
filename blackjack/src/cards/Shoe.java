@@ -1,11 +1,8 @@
 package cards;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collections;
 import java.util.Iterator;
@@ -84,28 +81,33 @@ public class Shoe {
 		this.nbshuffles=nbshuffles;
 	}
 	public Shoe(String shoefile) throws IOException{
-		Reader in = new FileReader(shoefile);
-		BufferedReader br=new BufferedReader(in);
-		shoefile=br.readLine();
-		StringTokenizer st = new StringTokenizer(shoefile);
-		String aux;
-	    while (st.hasMoreTokens()) {
-	        //System.out.println(st.nextToken());
-	    	aux=st.nextToken();
-	    	if(Character.toString(aux.charAt(0)).equals("1")){
-	    		 Card carta=new Card("10",Character.toString(aux.charAt(2)));
-	    		 cards.add(carta);
-	    	}else{
-	    		Card carta=new Card(Character.toString(aux.charAt(0)),Character.toString(aux.charAt(1)));
-	    		cards.add(carta);
-	    	}	
-	    }
-	    float n=cards.size()/52;
-	    this.num_decks=n;
-		this.num_decks2=n;
-	    debug=true;
-		this.top=cards.iterator();
-		br.close();
+		try{
+			Reader in = new FileReader(shoefile);
+			BufferedReader br=new BufferedReader(in);
+			shoefile=br.readLine();
+			StringTokenizer st = new StringTokenizer(shoefile);
+			String aux;
+		    while (st.hasMoreTokens()) {
+		        //System.out.println(st.nextToken());
+		    	aux=st.nextToken();
+		    	if(Character.toString(aux.charAt(0)).equals("1")){
+		    		 Card carta=new Card("10",Character.toString(aux.charAt(2)));
+		    		 cards.add(carta);
+		    	}else{
+		    		Card carta=new Card(Character.toString(aux.charAt(0)),Character.toString(aux.charAt(1)));
+		    		cards.add(carta);
+		    	}	
+		    }
+		    float n=cards.size()/52;
+		    this.num_decks=n;
+			this.num_decks2=n;
+		    debug=true;
+			this.top=cards.iterator();
+			br.close();
+		}catch(Exception e){
+			System.out.println("Error opening shoefile");
+			System.exit(1);
+		}
 	}
 	/*public Card getCard(boolean hole){
 		if(cards_used==10){
@@ -184,7 +186,7 @@ public class Shoe {
 		if(a.val ==10 || a.val==11){
 			run_count--;
 		}
-		true_count=(double) Math.round(run_count/num_decks2);
+		true_count=run_count/num_decks2;
 		//System.out.println("true count: " +true_count + "run count:" +run_count +" num remaining decks"+num_decks2+" cards used"+cards_used+"");
 	}
 	@Override

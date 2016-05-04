@@ -10,7 +10,7 @@ public class Deal {
 	Shoe shoe;
 	Hand p_hand;
 	static Hand d_hand;
-	private boolean bust=false;
+	protected boolean bust=false;
 	static boolean d_bust;
 	public boolean split=false;
 	public boolean splitc=false;
@@ -24,10 +24,9 @@ public class Deal {
 	private Iterator<Hand> toph;
 	public int po=0;
 	public Player p;
-	boolean sim=false;
 	public static int avbets;
 	
-	public Deal(int bet, Shoe sh, Player p,boolean sim){
+	public Deal(int bet, Shoe sh, Player p){
 		this.bet_value=bet;
 		this.shoe=sh;
 		d_hand=new Hand(shoe.getCard(false),shoe.getCard(true));
@@ -36,16 +35,14 @@ public class Deal {
 		dealerdone=false;
 		d_bust=false;
 		hands=new LinkedList<Hand>();
-		this.sim=sim;
 	}
 	
-	public Deal(int bet, Shoe sh, Player p, Card pc,boolean sim){
+	public Deal(int bet, Shoe sh, Player p, Card pc){
 		this.bet_value=bet;
 		this.shoe=sh;
 		this.p_hand=new Hand(pc,shoe.getCard(false));
 		this.p=p;
 		splitc=true;
-		this.sim=sim;
 		if(pc.val==11){
 			//po=payout(p_hand);
 			if(p_hand.cards.peekLast().val!=11){
@@ -202,7 +199,7 @@ public class Deal {
 				d1.input(s);
 			}else{
 				if(s.equals("s")){
-					System.out.println("player stands");
+					System.out.println("Player stands");
 					d1.enddeal=true;
 					//shoe.middeal=false;	
 				}else{
@@ -228,7 +225,7 @@ public class Deal {
 				if(!d2.enddeal1){
 					d2.input(s);
 				}else{
-					System.out.println("player stands");
+					System.out.println("Player stands");
 					d2.enddeal=true;
 					//shoe.middeal=false;
 				}
@@ -276,6 +273,7 @@ public class Deal {
 			}
 		}
 	}
+	
 	public void input(String s){
 		if(split){
 			split(s);
@@ -385,10 +383,10 @@ public class Deal {
 			if(s.equals("p")){
 				if(avbets>0 && !insure && p_hand.cards.size()==2 && p_hand.cards.peekFirst().val==p_hand.cards.peekLast().val && p.splitcount<=2){
 					System.out.println("Player is splitting");
-					d1=new Deal(bet_value,shoe,p,p_hand.cards.peekFirst(),sim);
+					d1=new Deal(bet_value,shoe,p,p_hand.cards.peekFirst());
 					System.out.println("First deal:");
 					d1.showDeal();
-					d2=new Deal(bet_value,shoe,p,p_hand.cards.peekLast(),sim);
+					d2=new Deal(bet_value,shoe,p,p_hand.cards.peekLast());
 					System.out.println("Second deal:");
 					d2.showDeal();
 					System.out.println("Now playing for the first deal");
@@ -406,6 +404,8 @@ public class Deal {
 			}
 		}
 	}
+	
+	
 	public String hardbasicStrategy(){
 		if(p_hand.value()>=5 && p_hand.value()<=8){
 			return "h";

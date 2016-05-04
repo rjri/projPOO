@@ -45,9 +45,10 @@ public class Main {
 					System.out.println(shoe);
 					Player p =new Player(balance,min_bet,max_bet);
 					Player.init_balance=balance;
-					SimDeal sd=new SimDeal(shoe,p);
-					sd.playDebug(cmdfile);
-					System.out.println("Bye");
+					DebugPlay dp=new DebugPlay(cmdfile,shoe,p);
+					dp.playDebug();
+					//sd.playDebug(cmdfile);
+					//System.out.println("Bye");
 					System.exit(0);
 				}
 				shoesize=Integer.parseInt(args[4]);
@@ -68,9 +69,23 @@ public class Main {
 						Shoe shoe=new Shoe(shoesize,shuffle,nbShuffles);
 						Player p =new Player(balance,min_bet,max_bet);
 						Player.init_balance=balance;
-						SimDeal sd=new SimDeal(shoe,p);
-						sd.playSim(sim_mode);
-						System.out.println("Bye");
+						if(sim_mode.equals("BS")){
+							SimPlayBS sp=new SimPlayBS(false,shoe,p);
+							sp.simulation();
+						}
+						if(sim_mode.equals("BS-AF")){
+							SimPlayBS sp=new SimPlayBS(true,shoe,p);
+							sp.simulation();
+						}
+						if(sim_mode.equals("HL")){
+							SimPlayHL sp=new SimPlayHL(false,shoe,p);
+							sp.simulation();
+						}
+						if(sim_mode.equals("HL-AF")){
+							SimPlayHL sp=new SimPlayHL(true,shoe,p);
+							sp.simulation();
+						}
+						//System.out.println("Bye");
 						System.exit(0);
 					}else{
 						System.out.println("simulation mode must be one of the following: BS, HL, HL-AF or BS-AF");
@@ -158,7 +173,7 @@ public class Main {
 				if(s.equals("d")){
 					if(bet_done){
 						Deal.avbets=(int) Math.floor((p.balance-bet_amount)/bet_amount);
-						Deal deal=new Deal(bet_amount,shoe,p,false);
+						Deal deal=new Deal(bet_amount,shoe,p);
 						deal.showDeal();
 						while(!deal.enddeal){
 							s=br.readLine();
@@ -174,7 +189,7 @@ public class Main {
 									System.exit(0);
 								}
 								if(s.equals("$")){
-									System.out.println("Player's balance: "+p.showBalance());
+									System.out.println("Player's current balance is "+p.showBalance());
 								}
 								if(s.equals("st")){
 									p.stats();
@@ -194,7 +209,7 @@ public class Main {
 					System.exit(0);
 				}
 				if(s.equals("$")){
-					System.out.println("Player's balance: "+p.showBalance());
+					System.out.println("Player's current balance is "+p.showBalance());
 				}
 				if(s.equals("st")){
 					p.stats();
