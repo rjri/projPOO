@@ -1,7 +1,12 @@
 package cards;
 
-public class SimPlayBS extends SimPlay {
+public class SimPlayBS implements SimPlay {
 
+	Shoe shoe;
+	Player p;
+	int next_bet;
+	boolean acefive;
+	
 	public SimPlayBS(boolean acefive,Shoe sh,Player p) {
 		this.shoe=sh;
 		this.p=p;

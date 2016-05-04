@@ -1,11 +1,6 @@
 package cards;
 
-public abstract class SimPlay {
-	
-	Shoe shoe;
-	Player p;
-	int next_bet;
-	boolean acefive;
+public interface SimPlay {
 	
 	/*public SimDeal(Shoe sh,Player p){
 		this.shoe=sh;
