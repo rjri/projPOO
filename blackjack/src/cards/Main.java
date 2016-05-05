@@ -64,9 +64,9 @@ public class Main {
 				if(args[0].equals("-s")){
 					int nbShuffles=Integer.parseInt(args[6]);
 					sim_mode=args[7];	
-					System.out.println(sim_mode);
 					if(sim_mode.equals("BS") || sim_mode.equals("HL") || sim_mode.equals("HL-AF") || sim_mode.equals("BS-AF")){
-						Shoe shoe=new Shoe(shoesize,shuffle,nbShuffles);
+						Shoe.nbshuffles=nbShuffles;
+						Shoe shoe=new Shoe(shoesize,shuffle);
 						Player p =new Player(balance,min_bet,max_bet);
 						Player.init_balance=balance;
 						if(sim_mode.equals("BS")){

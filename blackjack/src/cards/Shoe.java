@@ -23,11 +23,12 @@ public class Shoe {
 	static int ace_five=0;
 	boolean middeal=true;
 	boolean debug=false;
-	int nbshuffles;
+	static int nbshuffles=-1;
 	int shuffcnt=0;
-	
 	public void shuffle(){
-		System.out.println("Shuffling...");
+		if(nbshuffles<0){
+			System.out.println("Shuffling...");	
+		}
 		Collections.shuffle(cards);
 		top=cards.iterator();
 		cards_used=0;
@@ -76,10 +77,10 @@ public class Shoe {
 		reset=false;
 		this.top=cards.iterator();
 	}
-	public Shoe(int n,int shuff,int nbshuffles){
+	/*public Shoe(int n,int shuff,int nbshuffles){
 		this(n,shuff);
-		this.nbshuffles=nbshuffles;
-	}
+		//this.nbshuffles=nbshuffles;
+	}*/
 	public Shoe(String shoefile) throws IOException{
 		try{
 			Reader in = new FileReader(shoefile);
@@ -109,29 +110,7 @@ public class Shoe {
 			System.exit(1);
 		}
 	}
-	/*public Card getCard(boolean hole){
-		if(cards_used==10){
-			first=cards.iterator();
-			Card z=first.next();
-			System.out.println("first card:" +z);
-		}
-		
-		
-		if(top.hasNext()&&num_reset>cards_used){
-			Card a=top.next();
-			if(!hole){
-				cardCounter(a);
-			}
-			return a;
-		}else{
-			shuffle();
-			Card a=top.next();
-			if(!hole){
-				cardCounter(a);
-			}
-			return a;
-		}
-	}*/
+
 	public Card getCard(boolean hole){
 		
 		//System.out.println("cards used"+cards_used+" middeal:"+middeal+"");

@@ -41,12 +41,7 @@ public class SimPlayBS implements SimPlay {
 				next_bet=(int)p.balance;
 			}
 			Deal.avbets=(int) Math.floor((p.balance-next_bet)/next_bet);
-			System.out.println("----------------------------------------");
-			System.out.println("----------------------------------------");
-			System.out.println("Player is betting "+ next_bet);
 			p.splitcount=0;
-			Deal deal=new Deal(next_bet,shoe,p);
-			deal.showDeal();
 			while(!deal.enddeal){
 				deal.input(deal.basicStrategy());
 				simulationSplit(deal);

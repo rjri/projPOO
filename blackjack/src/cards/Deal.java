@@ -21,7 +21,7 @@ public class Deal {
 	public boolean enddeal1=false;
 	static boolean dealerdone;
 	static LinkedList<Hand> hands;
-	private Iterator<Hand> toph;
+	public Iterator<Hand> toph;
 	public int po=0;
 	public Player p;
 	public static int avbets;
@@ -53,7 +53,6 @@ public class Deal {
 			}
 		}
 		p.splitcount+=0.5;
-		System.out.println(p.splitcount);
 	}
 	
 	public void showDeal(){
@@ -79,7 +78,7 @@ public class Deal {
 	
 	public void doubleDown(){
 		bet_value*=2;
-		System.out.println("Doubledown");
+		//System.out.println("Doubledown");
 		p_hand.hit(shoe.getCard(false));
 		bust=p_hand.bust();
 	}
