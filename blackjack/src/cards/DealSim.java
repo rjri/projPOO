@@ -129,7 +129,7 @@ public class DealSim extends Deal {
 							po-=ins_value;
 						}*/
 						toph=hands.iterator();
-						int num=1;
+						//int num=1;
 						while(toph.hasNext()){
 							Hand test=toph.next();
 							int p1=payout(test);
@@ -137,7 +137,7 @@ public class DealSim extends Deal {
 								p1*=2;
 							}
 							po+=p1;
-							num++;
+							//num++;
 						}
 						p.balance+=po;
 						shoe.middeal=false;

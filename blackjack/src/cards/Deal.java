@@ -396,14 +396,35 @@ public class Deal {
 				}
 			}
 			if(s.equals("ad")){
-				System.out.println("Basic strategy: " + basicStrategy());
-				System.out.println("Hilo strategy: " + hilo());
-				System.out.println("True count: " + shoe.true_count);
-				System.out.println("Run count: " + shoe.run_count);
+				System.out.println("Basic strategy: " + convertAdvice(basicStrategy()));
+				System.out.println("Hi-lo strategy: " + convertAdvice(hilo()));
+				//System.out.println("True count: " + shoe.true_count);
+				//System.out.println("Run count: " + shoe.run_count);
 			}
 		}
 	}
 	
+	private String convertAdvice(String st){
+		if(st.equals("h")){
+			return "hit";
+		}
+		if(st.equals("s")){
+			return "stand";
+		}
+		if(st.equals("2")){
+			return "double";
+		}
+		if(st.equals("i")){
+			return "insure";
+		}
+		if(st.equals("u")){
+			return "surrender";
+		}
+		if(st.equals("p")){
+			return "split";
+		}
+		return "Invalid string";
+	}
 	
 	public String hardbasicStrategy(){
 		if(p_hand.value()>=5 && p_hand.value()<=8){

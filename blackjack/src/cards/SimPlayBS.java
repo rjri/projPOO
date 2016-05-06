@@ -18,7 +18,7 @@ public class SimPlayBS implements SimPlay {
 		//int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>=p.min_bet && /*nbit <25000*/ shoe.shuffcnt<shoe.nbshuffles){
+		while(p.balance>=p.min_bet && /*nbit <25000*/ shoe.shuffcnt<Shoe.nbshuffles){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -42,6 +42,7 @@ public class SimPlayBS implements SimPlay {
 			}
 			Deal.avbets=(int) Math.floor((p.balance-next_bet)/next_bet);
 			p.splitcount=0;
+			Deal deal=new DealSim(next_bet,shoe,p);
 			while(!deal.enddeal){
 				deal.input(deal.basicStrategy());
 				simulationSplit(deal);

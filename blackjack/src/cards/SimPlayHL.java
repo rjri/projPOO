@@ -18,7 +18,7 @@ public class SimPlayHL implements SimPlay {
 		//int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>=p.min_bet && /*nbit <25000*/ shoe.shuffcnt<shoe.nbshuffles){
+		while(p.balance>=p.min_bet && /*nbit <25000*/ shoe.shuffcnt<Shoe.nbshuffles){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{

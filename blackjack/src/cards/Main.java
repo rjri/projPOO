@@ -109,7 +109,7 @@ public class Main {
 			System.exit(1);
 		}
 		Shoe shoe=new Shoe(shoesize,shuffle);
-		System.out.println(shoe);
+		//System.out.println(shoe);
 		/*for(int i=0;i<110;i++){
 			System.out.println(shoe.getCard());
 		}
@@ -215,8 +215,8 @@ public class Main {
 					p.stats();
 				}
 				if(s.equals("ad")){
-					System.out.println("Ace-five: "+p.ace_five());
-					System.out.println("Count: "+Shoe.ace_five);
+					System.out.println("Ace-five: bet "+p.ace_five());
+					//System.out.println("Count: "+Shoe.ace_five);
 				}
 			}else{
 				System.out.println("Invalid input");
