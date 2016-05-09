@@ -6,7 +6,6 @@ import java.util.LinkedList;
 public class Deal {
 
 	int bet_value;
-	//double ins_value=0;
 	Shoe shoe;
 	Hand p_hand;
 	static Hand d_hand;
@@ -44,7 +43,6 @@ public class Deal {
 		this.p=p;
 		splitc=true;
 		if(pc.val==11){
-			//po=payout(p_hand);
 			if(p_hand.cards.peekLast().val!=11){
 				Player.bets++;
 				enddeal1=true;
@@ -60,12 +58,6 @@ public class Deal {
 		System.out.println("Player's hand: "+p_hand+" ("+p_hand.value()+")");
 		if(p_hand.value()==21){
 			System.out.println("Blackjack!");
-			/*Player.bets++;
-			if(!splitc){
-				dealer_play();
-				po=payout(p_hand);
-			}
-			this.enddeal=true;*/
 		}
 	}
 	
@@ -78,7 +70,6 @@ public class Deal {
 	
 	public void doubleDown(){
 		bet_value*=2;
-		//System.out.println("Doubledown");
 		p_hand.hit(shoe.getCard(false));
 		bust=p_hand.bust();
 	}
@@ -103,12 +94,6 @@ public class Deal {
 		}else{
 			System.out.println("Dealer busts");
 		}
-		/*if(!splitc){
-			System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
-			if(d_hand.blackjack){
-				System.out.println("Blackjack!");
-			}
-		}*/
 	}
 	
 	public int payout(Hand p_hand){
@@ -146,7 +131,7 @@ public class Deal {
 					System.out.println("Player wins and his current balance is "+p.balance);
 				}
 				Player.wins++;
-				return bet_value;//if it was split, no bonus
+				return bet_value;
 			}
 		}else{
 			if(d_hand.blackjack){
@@ -200,14 +185,13 @@ public class Deal {
 				if(s.equals("s")){
 					System.out.println("Player stands");
 					d1.enddeal=true;
-					//shoe.middeal=false;	
 				}else{
 					if(!s.equals("ad")&&!s.equals("$")){
 						System.out.println(s+": illegal command");
 					}
 					if(s.equals("ad")){
-						System.out.println("Basic strategy: s");
-						System.out.println("Hilo strategy: s");
+						System.out.println("Basic strategy: stand");
+						System.out.println("Hi-lo strategy: stand");
 					}
 				}
 			}
@@ -217,7 +201,6 @@ public class Deal {
 				}
 				System.out.println("First split done, now playing:");
 				d2.showDeal();
-				//po+=d1.po;
 			}				
 		}else{
 			if(!d2.enddeal){
@@ -226,22 +209,13 @@ public class Deal {
 				}else{
 					System.out.println("Player stands");
 					d2.enddeal=true;
-					//shoe.middeal=false;
 				}
 				if(d2.enddeal){
 					if(!d2.split){
 						hands.add(d2.p_hand);
 					}
-					//po+=d2.po;
 					if(!splitc){
 						dealer_play();
-						//System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
-						/*if(d_hand.blackjack){
-							//System.out.println("Blackjack!");
-							po+=2*ins_value;
-						}else{
-							po-=ins_value;
-						}*/
 						toph=hands.iterator();
 						int num=1;
 						while(toph.hasNext()){
@@ -267,7 +241,6 @@ public class Deal {
 						shoe.middeal=false;
 					}
 					enddeal=true;
-					//shoe.middeal=false;
 				}
 			}
 		}
@@ -285,7 +258,6 @@ public class Deal {
 					if(bust){
 						System.out.println("Player busts");
 						if(!splitc){
-							//dealer_play();
 							System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
 							if(d_hand.blackjack){
 								System.out.println("Blackjack!");
@@ -355,26 +327,9 @@ public class Deal {
 			}
 			if(s.equals("i")){
 				if(avbets>0 && !splitc&&p_hand.cards.size()==2 && d_hand.cards.peekFirst().val==11){
-					//ins_value=0.5*bet_value;
 					System.out.println("Player takes insurance");
 					insure=true;
 					avbets--;
-					/*if(d_hand.cards.peekLast().val==10){
-						System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
-						System.out.println("Blackjack!");
-						Player.dbj++;
-						if(p_hand.blackjack){
-							Player.pbj++;
-							p.balance+=bet_value;
-						}
-						System.out.println("Player wins insurance bet and his current balance is "+p.balance);
-						Player.wins++;
-						Player.bets++;
-						enddeal=true;
-					}else{
-						System.out.println("Dealer does not have a blackjack");
-						p.balance-=0.5*bet_value;
-					}*/
 				}else{
 					System.out.println("i: illegal command");
 				}
@@ -398,8 +353,6 @@ public class Deal {
 			if(s.equals("ad")){
 				System.out.println("Basic strategy: " + convertAdvice(basicStrategy()));
 				System.out.println("Hi-lo strategy: " + convertAdvice(hilo()));
-				//System.out.println("True count: " + shoe.true_count);
-				//System.out.println("Run count: " + shoe.run_count);
 			}
 		}
 	}
@@ -458,7 +411,7 @@ public class Deal {
 			if(d_hand.cards.peekFirst().val>=4 && d_hand.cards.peekFirst().val<=6){
 				return "s";
 			}else{
-				if(!splitace){ //avoid complicated situation where first split results in two hands of only aces and...
+				if(!splitace){ 
 					return "h";
 				}else{
 					return "s";
@@ -524,7 +477,6 @@ public class Deal {
 					if(avbets>0 &&!insure&& p.splitcount<=2){
 						return "p";	
 					}		
-					//return hardbasicStrategy(); cannot use this because 2,2 is not on the hardtable
 					return "h";
 				}
 			}
@@ -581,7 +533,6 @@ public class Deal {
 			
 		}else{
 			if(ace==true && nasum<=10){
-				//soft
 				if(!enddeal1){
 					if(p_hand.value()>=13 && p_hand.value()<=17){
 						return "h";
@@ -606,9 +557,7 @@ public class Deal {
 		return "Invalid hand";
 	}
 	
-	public String hilo(){
-		//System.out.println("True count: " + shoe.true_count);
-		//System.out.println("Run count: " + shoe.run_count);	
+	public String hilo(){	
 		if(!enddeal1){
 			if(d_hand.cards.peekFirst().val==11){
 				if(avbets>0 &&shoe.true_count>=3 && !splitc && !insure &&p_hand.cards.size()==2){

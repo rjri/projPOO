@@ -47,8 +47,6 @@ public class Main {
 					Player.init_balance=balance;
 					DebugPlay dp=new DebugPlay(cmdfile,shoe,p);
 					dp.playDebug();
-					//sd.playDebug(cmdfile);
-					//System.out.println("Bye");
 					System.exit(0);
 				}
 				shoesize=Integer.parseInt(args[4]);
@@ -85,7 +83,6 @@ public class Main {
 							SimPlayHL sp=new SimPlayHL(true,shoe,p);
 							sp.simulation();
 						}
-						//System.out.println("Bye");
 						System.exit(0);
 					}else{
 						System.out.println("simulation mode must be one of the following: BS, HL, HL-AF or BS-AF");
@@ -109,18 +106,6 @@ public class Main {
 			System.exit(1);
 		}
 		Shoe shoe=new Shoe(shoesize,shuffle);
-		//System.out.println(shoe);
-		/*for(int i=0;i<110;i++){
-			System.out.println(shoe.getCard());
-		}
-		System.out.println(shoe);
-		Hand hand=new Hand(shoe.getCard(),shoe.getCard());
-		System.out.println(hand);
-		System.out.println(hand.value());
-		hand.hit(shoe.getCard());
-		System.out.println(hand);
-		System.out.println(hand.value());
-		System.out.println("--");*/
 		Player p =new Player(balance,min_bet,max_bet);
 		Player.init_balance=balance;
 		int bet_amount=p.min_bet;
@@ -216,14 +201,11 @@ public class Main {
 				}
 				if(s.equals("ad")){
 					System.out.println("Ace-five: bet "+p.ace_five());
-					//System.out.println("Count: "+Shoe.ace_five);
 				}
 			}else{
 				System.out.println("Invalid input");
 			}
 		}
-		//deal.dealer_play();
-		//System.out.println(deal.payout());
 	}
 
 }

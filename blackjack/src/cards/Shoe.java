@@ -41,7 +41,6 @@ public class Shoe {
 		this.num_decks2=n;
 		this.num_reset=(int) Math.round((n*52*shuff)/100);
 		for(int j=0;j<num_decks;j++){
-			//Deck novo=new Deck();
 			String[] naipe=new String[4];
 			naipe[0]="S";
 			naipe[1]="H";
@@ -71,16 +70,12 @@ public class Shoe {
 					}
 				}
 			}
-			//cards.addAll(novo.cards);
 		}
 		shuffle();
 		reset=false;
 		this.top=cards.iterator();
 	}
-	/*public Shoe(int n,int shuff,int nbshuffles){
-		this(n,shuff);
-		//this.nbshuffles=nbshuffles;
-	}*/
+
 	public Shoe(String shoefile) throws IOException{
 		try{
 			Reader in = new FileReader(shoefile);
@@ -89,7 +84,6 @@ public class Shoe {
 			StringTokenizer st = new StringTokenizer(shoefile);
 			String aux;
 		    while (st.hasMoreTokens()) {
-		        //System.out.println(st.nextToken());
 		    	aux=st.nextToken();
 		    	if(Character.toString(aux.charAt(0)).equals("1")){
 		    		 Card carta=new Card("10",Character.toString(aux.charAt(2)));
@@ -112,8 +106,6 @@ public class Shoe {
 	}
 
 	public Card getCard(boolean hole){
-		
-		//System.out.println("cards used"+cards_used+" middeal:"+middeal+"");
 		if(!debug){
 			if(num_reset<cards_used && !middeal){
 				shuffle();
@@ -156,7 +148,6 @@ public class Shoe {
 			ace_five--;
 		}
 		cards_used++;
-		//num_cards++;
 		num_decks2=num_decks-(cards_used/52);
 		
 		if(a.val >=2 && a.val<=6){
@@ -166,8 +157,8 @@ public class Shoe {
 			run_count--;
 		}
 		true_count=run_count/num_decks2;
-		//System.out.println("true count: " +true_count + "run count:" +run_count +" num remaining decks"+num_decks2+" cards used"+cards_used+"");
 	}
+	
 	@Override
 	public String toString() {
 		return "Shoe [cards=" + cards + "]";

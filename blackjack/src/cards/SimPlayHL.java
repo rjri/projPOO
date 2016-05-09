@@ -15,10 +15,9 @@ public class SimPlayHL implements SimPlay {
 
 	@Override
 	public void simulation(){
-		//int nbit=0;
 		int win=0;
 		int loss=0;
-		while(p.balance>=p.min_bet && /*nbit <25000*/ shoe.shuffcnt<Shoe.nbshuffles){
+		while(p.balance>=p.min_bet && shoe.shuffcnt<Shoe.nbshuffles){
 			if(acefive){
 				next_bet=p.ace_five();
 			}else{
@@ -47,7 +46,6 @@ public class SimPlayHL implements SimPlay {
 				deal.input(deal.hilo());
 				simulationSplit(deal);
 			}
-			//nbit++;
 		}	
 		p.stats();
 		System.out.println(shoe.shuffcnt);
@@ -55,13 +53,13 @@ public class SimPlayHL implements SimPlay {
 	
 	@Override
 	public void simulationSplit(Deal deal){
-		if(deal.split){//first split
+		if(deal.split){
 			while(!deal.d1.enddeal){
 				deal.input(deal.d1.hilo());
-				if(deal.d1.split){//Second split
+				if(deal.d1.split){
 					while(!deal.d1.d1.enddeal){
 						deal.input(deal.d1.d1.hilo());
-						if(deal.d1.d1.split){//third split
+						if(deal.d1.d1.split){
 							while(!deal.d1.d1.d1.enddeal){
 								deal.input(deal.d1.d1.d1.hilo());
 							}
@@ -72,7 +70,7 @@ public class SimPlayHL implements SimPlay {
 					}
 					while(!deal.d1.d2.enddeal){
 						deal.input(deal.d1.d2.hilo());
-						if(deal.d1.d2.split){//third split
+						if(deal.d1.d2.split){
 							while(!deal.d1.d2.d1.enddeal){
 								deal.input(deal.d1.d2.d1.hilo());
 							}
@@ -85,10 +83,10 @@ public class SimPlayHL implements SimPlay {
 			}
 			while(!deal.d2.enddeal){
 				deal.input(deal.d2.hilo());
-				if(deal.d2.split){//Second split
+				if(deal.d2.split){
 					while(!deal.d2.d1.enddeal){
 						deal.input(deal.d2.d1.hilo());
-						if(deal.d2.d1.split){//third split
+						if(deal.d2.d1.split){
 							while(!deal.d2.d1.d1.enddeal){
 								deal.input(deal.d2.d1.d1.hilo());
 							}
@@ -99,7 +97,7 @@ public class SimPlayHL implements SimPlay {
 					}
 					while(!deal.d2.d2.enddeal){
 						deal.input(deal.d2.d2.hilo());
-						if(deal.d2.d2.split){//third split
+						if(deal.d2.d2.split){
 							while(!deal.d2.d2.d1.enddeal){
 								deal.input(deal.d2.d2.d1.hilo());
 							}

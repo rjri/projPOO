@@ -4,12 +4,10 @@ public class DealSim extends Deal {
 
 	public DealSim(int bet, Shoe sh, Player p) {
 		super(bet, sh, p);
-		// TODO Auto-generated constructor stub
 	}
 
 	public DealSim(int bet, Shoe sh, Player p, Card pc) {
 		super(bet, sh, p, pc);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void dealer_play(){
@@ -52,7 +50,7 @@ public class DealSim extends Deal {
 					Player.pbj++;
 				}
 				Player.wins++;
-				return bet_value;//if it was split, no bonus
+				return bet_value;
 			}
 		}else{
 			if(d_hand.blackjack){
@@ -97,8 +95,7 @@ public class DealSim extends Deal {
 				d1.input(s);
 			}else{
 				if(s.equals("s")){
-					d1.enddeal=true;
-					//shoe.middeal=false;	
+					d1.enddeal=true;	
 				}
 			}
 			if(d1.enddeal){
@@ -112,24 +109,14 @@ public class DealSim extends Deal {
 					d2.input(s);
 				}else{
 					d2.enddeal=true;
-					//shoe.middeal=false;
 				}
 				if(d2.enddeal){
 					if(!d2.split){
 						hands.add(d2.p_hand);
 					}
-					//po+=d2.po;
 					if(!splitc){
 						dealer_play();
-						//System.out.println("Dealer's hand: "+d_hand+" ("+d_hand.value()+")");
-						/*if(d_hand.blackjack){
-							//System.out.println("Blackjack!");
-							po+=2*ins_value;
-						}else{
-							po-=ins_value;
-						}*/
 						toph=hands.iterator();
-						//int num=1;
 						while(toph.hasNext()){
 							Hand test=toph.next();
 							int p1=payout(test);
@@ -137,13 +124,11 @@ public class DealSim extends Deal {
 								p1*=2;
 							}
 							po+=p1;
-							//num++;
 						}
 						p.balance+=po;
 						shoe.middeal=false;
 					}
 					enddeal=true;
-					//shoe.middeal=false;
 				}
 			}
 		}
@@ -158,7 +143,6 @@ public class DealSim extends Deal {
 					hit();
 					if(bust){
 						if(!splitc){
-							//dealer_play();
 							if(d_hand.blackjack){
 								Player.dbj++;
 							}

@@ -11,7 +11,6 @@ public class Hand {
 	
 	protected Hand(Card a, Card b){
 		if(a.val+b.val==21){
-			//System.out.println("Blackjack!");
 			blackjack=true;
 		}
 		cards.add(a);
