@@ -57,7 +57,6 @@ public class SimPlayBS implements SimPlay {
 			}
 		}	
 		p.stats();
-		System.out.println(shoe.shuffcnt);
 	}
 	
 	@Override

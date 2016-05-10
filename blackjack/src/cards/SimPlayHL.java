@@ -57,7 +57,6 @@ public class SimPlayHL implements SimPlay {
 			}
 		}	
 		p.stats();
-		System.out.println(shoe.shuffcnt);
 	}
 	
 	@Override
