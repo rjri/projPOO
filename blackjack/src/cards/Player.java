@@ -1,5 +1,13 @@
 package cards;
 
+/**
+ * Classe que define um jogador.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class Player {
 
 	public float balance;

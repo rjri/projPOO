@@ -1,5 +1,13 @@
 package cards;
 
+/**
+ * Classe que extende Deal para o modo de simulacao.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class DealSim extends Deal {
 
 	public DealSim(int bet, Shoe sh, Player p) {

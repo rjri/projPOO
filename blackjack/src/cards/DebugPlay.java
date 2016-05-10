@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.StringTokenizer;
 
+/**
+ * Classe que implementa o modo de debug.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class DebugPlay {
 
 	Shoe shoe;

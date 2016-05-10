@@ -1,5 +1,13 @@
 package cards;
 
+/**
+ * Classe que define uma carta.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class Card {
 
 	public String face, naipe;

@@ -1,5 +1,14 @@
 package cards;
 
+/**
+ * Classe que implementa a interface SimPlay para o modo de simulacao
+ * usando a estrategia hi-lo.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class SimPlayHL implements SimPlay {
 
 	Shoe shoe;

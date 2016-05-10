@@ -3,6 +3,14 @@ package cards;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * Classe que define uma mao, do jogador ou do dealer.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class Hand {
 
 	LinkedList<Card> cards=new LinkedList<Card>();

@@ -3,6 +3,14 @@ package cards;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * Classe que implementa uma jogada de blackjack.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class Deal {
 
 	int bet_value;

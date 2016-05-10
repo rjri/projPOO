@@ -9,6 +9,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+/**
+ * Classe que define a lista de cartas a ser jogadas.
+ * 
+ * @author Rui Guerra 75737
+ * @author Joao Castanheira 77206
+ * 
+ */
+
 public class Shoe {
 
 	private float num_decks;
